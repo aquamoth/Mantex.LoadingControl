@@ -1,10 +1,9 @@
 ﻿@{
     ViewBag.Title = "Lossning";
 }
-@*<div class="row"><div class="col-sm-12">&nbsp;</div></div>*@
 <br />
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-5 col-md-4">
 
         @*Kontrollpanel*@
         <div class="panel panel-primary">
@@ -17,27 +16,73 @@
 
                     <div class="row">
                         <div class="col-xs-6 col-sm-12">
+                            @* Transaktionslista*@
                             <div class="form-group">
-                                <label for="TransactionSelect">Välj Transaktion:</label>
-                                <select id="TransactionSelect" class="form-control disabled">
-                                    <option value="873218">Sunnanö Båt Everst #27</option>
-                                    <option value="873219">Sunnanö Båt Alfred</option>
-                                    <option value="873220">Sunnanö Båt Lollipop</option>
-                                    <option value="873221">Sunnanö Båt Mandarin #1</option>
-                                    <option value="873222">Sunnanö Båt Russian Velvet</option>
-                                </select>
-                            </div>
 
-                            <div class="form-group">
-                                <button class="btn btn-warning disabled">Ny Transaktion...</button>
-                                <button class="btn btn-success">Transaktion Färdig</button>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <label>Välj Transaktion</label>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <a href="#NewTransactionModal" role="button" class="btn btn-xs btn-success" data-toggle="modal">Ny...</a>
+                                    </div>
+                                </div>
+
+                                <div style="max-height:200px;overflow:scroll">
+                                    <table class="table table-hover">
+                                        <tbody>
+                                            <tr class="active">
+                                                <td>118992</td>
+                                                <td>Båt</td>
+                                                <td>Sunnanö</td>
+                                                <td>Everst #27</td>
+                                            </tr>
+                                            <tr>
+                                                <td>118993</td>
+                                                <td>Båt</td>
+                                                <td>Sunnanö</td>
+                                                <td>Alfred</td>
+                                            </tr>
+                                            <tr>
+                                                <td>118994</td>
+                                                <td>Båt</td>
+                                                <td>Sunnanö</td>
+                                                <td>Lollipop</td>
+                                            </tr>
+                                            <tr>
+                                                <td>118995</td>
+                                                <td>Båt</td>
+                                                <td>Sunnanö</td>
+                                                <td>Mandarin</td>
+                                            </tr>
+                                            <tr>
+                                                <td>118996</td>
+                                                <td>Båt</td>
+                                                <td>Sunnanö</td>
+                                                <td>Russian Velvet</td>
+                                            </tr>
+                                            <tr>
+                                                <td>118997</td>
+                                                <td>Båt</td>
+                                                <td>Sunnanö</td>
+                                                <td>Everst #27</td>
+                                            </tr>
+                                            <tr>
+                                                <td>118998</td>
+                                                <td>Båt</td>
+                                                <td>Sunnanö</td>
+                                                <td>Alfred</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <div class="col-xs-6 col-sm-12">
 
                             <div class="form-group">
-                                <label for="MaterialTypeSelect">Materialtyp:</label>
-                                <select id="MaterialTypeSelect" class="form-control disabled">
+                                <label for="MaterialTypeSelect">Material</label>
+                                <select id="MaterialTypeSelect" class="form-control">
                                     <option value="1">Gran</option>
                                     <option value="2">Grot</option>
                                     <option value="3">Returflis</option>
@@ -46,8 +91,9 @@
                             </div>
 
                             <div class="form-group">
-                                <button class="btn btn-primary disabled">Starta</button>
-                                <button class="btn btn-primary">Stanna</button>
+                                <button class="btn btn-primary btn-block disabled">Starta</button>
+                                <button class="btn btn-primary btn-block">Stanna</button>
+                                <a href="#ConfirmFinishModal" role="button" class="btn btn-success btn-block" data-toggle="modal">Avsluta Transaktionen</a>
                             </div>
                         </div>
                     </div>
@@ -57,7 +103,7 @@
         </div>
     </div>
 
-    <div class="col-sm-8">
+    <div class="col-sm-7 col-md-8">
 
         @*Produktion rubrik*@
         <div class="jumbotron">
@@ -88,20 +134,20 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-xs-6"><strong>&nbsp;</strong></div>
-                            <div class="col-xs-6">&nbsp;</div>
+                            <div class="col-xs-6 col-sm-12 col-md-6"><strong>&nbsp;</strong></div>
+                            <div class="col-xs-6 col-sm-12 col-md-6">&nbsp;</div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-6"><strong>Ankomst</strong></div>
-                            <div class="col-xs-6">2015-03-18</div>
+                            <div class="col-xs-6 col-sm-12 col-md-6"><strong>Ankomst</strong></div>
+                            <div class="col-xs-6 col-sm-12 col-md-6">2015-03-18</div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-6"><strong>Material</strong></div>
-                            <div class="col-xs-6">Grot</div>
+                            <div class="col-xs-6 col-sm-12 col-md-6"><strong>Material</strong></div>
+                            <div class="col-xs-6 col-sm-12 col-md-6">Grot</div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-6"><strong>Vikt</strong></div>
-                            <div class="col-xs-6">1,500 ton</div>
+                            <div class="col-xs-6 col-sm-12 col-md-6"><strong>Vikt</strong></div>
+                            <div class="col-xs-6 col-sm-12 col-md-6">1,500 ton</div>
                         </div>
                     </div>
                 </div>
@@ -114,20 +160,20 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-xs-6"><strong>Omgång</strong></div>
-                            <div class="col-xs-6">3</div>
+                            <div class="col-xs-6 col-sm-12 col-md-6"><strong>Omgång</strong></div>
+                            <div class="col-xs-6 col-sm-12 col-md-6">3</div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-6"><strong>Startades</strong></div>
-                            <div class="col-xs-6">2015-03-10 12:55:02</div>
+                            <div class="col-xs-6 col-sm-12 col-md-6"><strong>Startades</strong></div>
+                            <div class="col-xs-6 col-sm-12 col-md-6">2015-03-10 12:55:02</div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-6"><strong>Tid för omgång</strong></div>
-                            <div class="col-xs-6">45 min</div>
+                            <div class="col-xs-6 col-sm-12 col-md-6"><strong>Tid för omgång</strong></div>
+                            <div class="col-xs-6 col-sm-12 col-md-6">45 min</div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-6"><strong>Tid för transaktion</strong></div>
-                            <div class="col-xs-6">2 h 37 min</div>
+                            <div class="col-xs-6 col-sm-12 col-md-6"><strong>Tid för transaktion</strong></div>
+                            <div class="col-xs-6 col-sm-12 col-md-6">2 h 37 min</div>
                         </div>
 
                     </div>
@@ -135,5 +181,43 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+
+<div id="NewTransactionModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Lägg till Transaktion</h4>
+            </div>
+            <div class="modal-body">
+                <p>Modal ruta. Yadda yadda</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+                <button type="button" class="btn btn-primary">Spara</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ConfirmFinishModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Avsluta Transaktionen</h4>
+            </div>
+            <div class="modal-body">
+                <p>Endast en del av den beräknade vikten har skannats. Är du säker på att du vill avsluta transaktionen?</p>
+                <p class="text-warning"><small>Avslutade transaktioner tas bort från transaktionslistan.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ångra</button>
+                <button type="button" class="btn btn-primary">Bekräfta</button>
+            </div>
+        </div>
     </div>
 </div>
