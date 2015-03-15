@@ -151,6 +151,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Loading\DisplayTemplates\SmallTransactionTable.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -167,6 +170,17 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Loading\Index.cshtml" />
+    <Content Include="Views\Loading\Progress.cshtml" />
+    <Content Include="Views\Loading\MachineStatus.cshtml" />
+    <Content Include="Views\Loading\DisplayTemplates\DateTime.cshtml" />
+    <Content Include="Views\Loading\ProductionStatus.cshtml" />
+    <Content Include="Views\Loading\DisplayTemplates\Transaction_Jumbotron.cshtml" />
+    <Content Include="Views\Loading\DisplayTemplates\Transaction_Info.cshtml" />
+    <Content Include="Views\Loading\DisplayTemplates\Batch_Info.cshtml" />
+    <Content Include="Views\Loading\DisplayTemplates\Stopwatch.cshtml" />
+    <Content Include="Views\Loading\ControlPanel.cshtml" />
+    <Content Include="Views\Loading\NewTransactionModal.cshtml" />
+    <Content Include="Views\Loading\ConfirmFinishModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -176,6 +190,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mantex.ERP.Data\Mantex.ERP.Data.csproj">
+      <Project>{610eda12-afe4-4f58-8e40-e05abe412377}</Project>
+      <Name>Mantex.ERP.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mantex.ERP.Logic\Mantex.ERP.Logic.csproj">
+      <Project>{cbb47fed-bfd0-4adb-aac9-9c2f85a38146}</Project>
+      <Name>Mantex.ERP.Logic</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,46 @@
+﻿@model Mantex.LoadingControl.Models.LoadingModels.IndexModel
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Kontrollpanel</h3>
+    </div>
+    <div class="panel-body">
+
+        <form role="form">
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    @* Transaktionslista*@
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <label>Välj Transaktion</label>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <a href="#NewTransactionModal" role="button" class="btn btn-xs btn-success" data-toggle="modal">Ny...</a>
+                            </div>
+                        </div>
+                        <div class="transaction-table">
+                            @Html.DisplayFor(m => m.Transactions, "SmallTransactionTable", new { ActiveTransactionId = Model.ActiveTransactionId })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12">
+                    <div class="form-group">
+                        <label for="MaterialTypeSelect">Material</label>
+                        @Html.DropDownListFor(m => m.SelectedMaterialType, new SelectList(Model.MaterialTypes, "Id", "Name"), new { Id = "MaterialTypeSelect", @Class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block disabled">Starta</button>
+                        <button class="btn btn-primary btn-block">Stanna</button>
+                        <a href="#ConfirmFinishModal" role="button" class="btn btn-success btn-block" data-toggle="modal">Avsluta Transaktionen</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@Html.Partial("NewTransactionModal")
+@Html.Partial("ConfirmFinishModal")

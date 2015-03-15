@@ -1,0 +1,10 @@
+﻿@model Mantex.LoadingControl.Models.LoadingModels.ProductionStatusModel
+@Html.DisplayFor(m => m.Transaction, "Transaction_Jumbotron")
+<div class="row">
+    <div class="col-xs-6 col-sm-12 col-md-6">
+        @Html.DisplayFor(m => m.Transaction, "Transaction_Info")
+    </div>
+    <div class="col-xs-6 col-sm-12 col-md-6">
+        @Html.Display("", "Batch_Info")
+    </div>
+</div>

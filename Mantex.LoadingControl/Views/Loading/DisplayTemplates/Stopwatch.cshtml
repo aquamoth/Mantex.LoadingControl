@@ -1,0 +1,18 @@
+﻿@model int
+@{
+    var seconds = Model % 60;
+    var minutes = (Model / 60) % 60;
+    var hours = Model / 3600;
+    if (hours > 0)
+    {
+        @hours <text>h</text>
+    }
+    if (minutes > 0 || (hours > 0 && seconds > 0))
+    {
+        @minutes <text>min</text>
+    }
+    if (seconds > 0 || (hours == 0 && minutes == 0))
+    {
+        @seconds <text>s</text>
+    }
+}
