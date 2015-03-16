@@ -16,7 +16,7 @@
                                 <label>Välj Transaktion</label>
                             </div>
                             <div class="col-xs-6 text-right">
-                                <a href="#NewTransactionModal" role="button" class="btn btn-xs btn-success" data-toggle="modal">Ny...</a>
+                                @dialogButton("Ny...", "NewTransactionModal", Model.ActiveTransactionId == null, "btn-xs")
                             </div>
                         </div>
                         <div class="transaction-table">
@@ -31,9 +31,9 @@
                     </div>
 
                     <div class="form-group">
-                        <button class="btn btn-primary btn-block disabled">Starta</button>
-                        <button class="btn btn-primary btn-block">Stanna</button>
-                        <a href="#ConfirmFinishModal" role="button" class="btn btn-success btn-block" data-toggle="modal">Avsluta Transaktionen</a>
+                        @button("Starta", Model.ActiveTransactionId == null)
+                        @button("Stanna", Model.ActiveTransactionId != null)
+                        @dialogButton("Avsluta Transaktionen", "ConfirmFinishModal", Model.ActiveTransactionId != null, "btn-block")
                     </div>
                 </div>
             </div>
@@ -44,3 +44,20 @@
 
 @Html.Partial("NewTransactionModal")
 @Html.Partial("ConfirmFinishModal")
+
+@helper button(string text, bool isEnabled, string className = "btn-block")
+{
+    if (!isEnabled)
+    {
+        className += " disabled";
+    }
+    <button class="btn btn-primary @className">@text</button>
+}
+@helper dialogButton(string text, string dialogBoxId, bool isEnabled, string className = "")
+{
+    if (!isEnabled)
+    {
+        className += " disabled";
+    }
+    <a href="#@dialogBoxId" role="button" class="btn btn-success @className" data-toggle="modal">@text</a>
+}
