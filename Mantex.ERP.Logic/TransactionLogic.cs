@@ -122,5 +122,36 @@ namespace Mantex.ERP.Logic
 			//return transaction;
 		}
 		static Data.Transaction _currentTransaction = null; //TODO: Temporary testing variable. Replace with DB access
+
+		public void StartTransaction(string transactionId, int materialTypeId)
+		{
+#warning Not thread safe!
+			if (_currentTransaction != null)
+				throw new NotSupportedException(string.Format("Transaktion '{0}' måste stoppas först.", _currentTransaction.Id));
+
+			var transactions = this.GetCurrentTransactions();
+			var transaction = transactions.FirstOrDefault(t => t.Id == transactionId);
+			if (transaction == null)
+				throw new ArgumentException(string.Format("Transaktion '{0}' hittades inte.", transactionId));
+
+			var materialTypes = this.AvailableMaterialTypes();
+			var materialType = materialTypes.FirstOrDefault(mt => mt.Id == materialTypeId);
+			if (materialType == null)
+				throw new ArgumentException("Materialtypen finns inte.");
+
+			var batch = new Data.Batch
+			{
+				Id = 1,
+				MaterialTypeId = materialTypeId,
+				MaterialType = materialType,
+				StartTime = DateTime.Now,
+				EndTime = null,
+				TransactionId = transactionId,
+				Transaction = transaction
+			};
+			transaction.Batches.Add(batch);
+
+			_currentTransaction = transaction;
+		}
 	}
 }

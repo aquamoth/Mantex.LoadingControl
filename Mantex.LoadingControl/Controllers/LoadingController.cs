@@ -36,9 +36,17 @@ namespace Mantex.LoadingControl.Controllers
 		[SetTempDataModelState]
 		public ActionResult Index_Post(LoadingModels.IndexPostModel model)
 		{
-			if(ModelState.IsValid)
+			if (ModelState.IsValid)
 			{
-				//TODO: Try complete action
+				try
+				{
+					var transactionLogic = new TransactionLogic();
+					transactionLogic.StartTransaction(model.SelectedTransaction, model.SelectedMaterialType);
+				}
+				catch (Exception ex)
+				{
+					ModelState.AddModelError("", ex.Message);
+				}
 			}
 			return RedirectToAction("Index");
 		}
