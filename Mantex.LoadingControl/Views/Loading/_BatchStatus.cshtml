@@ -1,0 +1,64 @@
+﻿@model Mantex.LoadingControl.Models.LoadingModels.IndexModel
+@{
+    var transaction = Model.ActiveBatch == null ? null : Model.ActiveBatch.Transaction;
+    var headline = transaction == null
+        ? "(ingen pågående transaktion)"
+        : string.Format("{3} - {0} {1} {2}",
+            transaction.Supplier,
+            transaction.ShippingMethod,
+            transaction.Name,
+            transaction.Id);
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">@headline</h3>
+    </div>
+    <div class="panel-body">
+        @if (transaction != null)
+        {
+            <div class="row">
+                <div class="col-xs-6 col-sm-12 col-md-6">
+                    @Html.Partial("_TransactionInfo", transaction)
+                </div>
+                <div class="col-xs-6 col-sm-12 col-md-6">
+                    @Html.Partial("_BatchInfo", transaction)
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-xs-12">
+                    @Html.Action("Progress", "Loading", new { Id = transaction.Id })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-12 col-md-6">
+                    @button("Stanna", true)
+                </div>
+                <div class="col-xs-6 col-sm-12 col-md-6">
+                    @dialogButton("Avsluta Transaktionen", "ConfirmFinishModal", true, "btn-block")
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        @Html.Action("MachineStatus", "Loading")
+    </div>
+</div>
+
+
+@helper button(string text, bool isEnabled, string className = "btn-block")
+{
+    if (!isEnabled)
+    {
+        className += " disabled";
+    }
+    <button class="btn btn-primary @className">@text</button>
+}
+@helper dialogButton(string text, string dialogBoxId, bool isEnabled, string className = "")
+{
+    if (!isEnabled)
+    {
+        className += " disabled";
+    }
+    <a href="#@dialogBoxId" role="button" class="btn btn-success @className" data-toggle="modal">@text</a>
+}

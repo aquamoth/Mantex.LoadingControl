@@ -1,0 +1,40 @@
+﻿@model Mantex.ERP.Data.Transaction
+<h3>Förväntat</h3>
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-xs-6 hidden-sm"><strong>&nbsp;</strong></div>
+        <div class="col-xs-6 hidden-sm">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Material</strong></div>
+        <div class="col-xs-6">@Model.MaterialType.Name</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Ankomst</strong></div>
+        <div class="col-xs-6">@Html.DisplayFor(m => m.ShippingDate)</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Vikt</strong></div>
+        <div class="col-xs-6">@string.Format("{0:N0} ton", Model.ExpectedWeight)</div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-xs-6 hidden-sm"><strong>&nbsp;</strong></div>
+        <div class="col-xs-6 hidden-sm">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Material</strong></div>
+        <div class="col-xs-6">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Ankomst</strong></div>
+        <div class="col-xs-6">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Vikt</strong></div>
+        <div class="col-xs-6">&nbsp;</div>
+    </div>
+}

@@ -1,0 +1,64 @@
+﻿@model Mantex.ERP.Data.Transaction
+@{
+    var activeBatch = Model.Batches.SingleOrDefault(b => b.EndTime == null);
+}
+<h3>Produktion</h3>
+@if (activeBatch != null)
+{
+    var batchIndex = Model.Batches.OrderBy(b => b.StartTime).ToList().IndexOf(activeBatch) + 1;
+    var batchTime = elapsedTimeFor(activeBatch);
+    var productionTime = Model.Batches.Select(b => elapsedTimeFor(b)).Sum();
+    
+    <div class="row">
+        <div class="col-xs-6"><strong>Omgång</strong></div>
+        <div class="col-xs-6">@batchIndex</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Material</strong></div>
+        <div class="col-xs-6">@activeBatch.MaterialType.Name</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Startades</strong></div>
+        <div class="col-xs-6">@activeBatch.StartTime.ToShortDateString() @activeBatch.StartTime.ToShortTimeString()</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Tid för omgång</strong></div>
+        <div class="col-xs-6">@Html.DisplayFor(m => batchTime, "Stopwatch")</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Tid för transaktion</strong></div>
+        <div class="col-xs-6">@Html.DisplayFor(m => productionTime, "Stopwatch")</div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-xs-6"><strong>Omgång</strong></div>
+        <div class="col-xs-6">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Material</strong></div>
+        <div class="col-xs-6">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Startades</strong></div>
+        <div class="col-xs-6">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Tid för omgång</strong></div>
+        <div class="col-xs-6">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6"><strong>Tid för transaktion</strong></div>
+        <div class="col-xs-6">&nbsp;</div>
+    </div>
+}
+
+@functions{
+    int elapsedTimeFor(Mantex.ERP.Data.Batch activeBatch)
+    {
+        var endTime = activeBatch.EndTime ?? DateTime.Now;
+        var timeSpan = endTime.Subtract(activeBatch.StartTime);
+        return (int)timeSpan.TotalSeconds;
+    }
+}

@@ -4,6 +4,11 @@
         @foreach (var transaction in Model)
         {
             <tr class="@RowClassFor(transaction.Id)">
+                <td>
+                    @if(!isActive(transaction.Id)){
+                        @Html.RadioButton("Select", transaction.Id)
+                    }
+                </td>
                 <td>@SuffixOf(transaction.Id)</td>
                 <td>@transaction.ShippingMethod</td>
                 <td>@transaction.Supplier</td>
@@ -21,9 +26,12 @@
     }
     string RowClassFor(string Id)
     {
+        return isActive(Id) ? "active" : null;
+    }
+    
+    bool isActive(string Id)
+    {
         var activeTransactionId = (string)ViewBag.ActiveTransactionId;
-        if (Id == activeTransactionId)
-            return "active";
-        return null;
+        return (Id == activeTransactionId);
     }
 }

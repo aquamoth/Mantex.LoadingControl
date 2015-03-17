@@ -13,28 +13,18 @@ namespace Mantex.LoadingControl.Controllers
 		public ActionResult Index()
 		{
 			var transactionLogic = new TransactionLogic();
+			var activeTransaction = transactionLogic.GetActiveTransaction();
+			var activeBatch = activeTransaction == null 
+				? null 
+				: activeTransaction.Batches.SingleOrDefault(b => !b.EndTime.HasValue);
+
 			var model = new LoadingModels.IndexModel
 			{
 				Transactions = transactionLogic.GetCurrentTransactions(),
 				MaterialTypes = transactionLogic.AvailableMaterialTypes(),
-				ActiveTransactionId = transactionLogic.GetActiveTransaction().Id
+				ActiveBatch = activeBatch
 			};
 			return View(model);
-		}
-	
-		[ChildActionOnly]
-		public ActionResult ProductionStatus()
-		{
-			var transactionLogic = new TransactionLogic();
-			var model = new LoadingModels.ProductionStatusModel
-			{
-				Transaction = transactionLogic.GetActiveTransaction(),
-				BatchIndex = 3,
-				StartTime = new DateTime(2015, 3, 10, 12, 55, 2),
-				ProductionTime_Batch = 45 * 60,
-				ProductionTime_Transaction = 2 * 60 * 60 + 37 * 60
-			};
-			return PartialView(model);
 		}
 
 		[ChildActionOnly]

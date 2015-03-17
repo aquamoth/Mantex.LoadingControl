@@ -4,10 +4,10 @@
 }
 <br />
 <div class="row">
-    <div class="col-sm-6 col-md-4">
-        @Html.Partial("ControlPanel", Model)
+    <div class="col-sm-6 col-md-5">
+        @Html.Partial("_ControlPanel", Model)
     </div>
-    <div class="col-sm-6 col-md-8">
-        @Html.Action("ProductionStatus", "Loading")
+    <div class="col-sm-6 col-md-7">
+        @Html.Partial("_BatchStatus", Model)
     </div>
 </div>

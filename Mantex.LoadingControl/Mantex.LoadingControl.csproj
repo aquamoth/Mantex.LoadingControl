@@ -174,11 +174,11 @@
     <Content Include="Views\Loading\MachineStatus.cshtml" />
     <Content Include="Views\Loading\DisplayTemplates\DateTime.cshtml" />
     <Content Include="Views\Loading\ProductionStatus.cshtml" />
-    <Content Include="Views\Loading\DisplayTemplates\Transaction_Jumbotron.cshtml" />
-    <Content Include="Views\Loading\DisplayTemplates\Transaction_Info.cshtml" />
-    <Content Include="Views\Loading\DisplayTemplates\Batch_Info.cshtml" />
+    <Content Include="Views\Loading\_BatchStatus.cshtml" />
+    <Content Include="Views\Loading\_TransactionInfo.cshtml" />
+    <Content Include="Views\Loading\_BatchInfo.cshtml" />
     <Content Include="Views\Loading\DisplayTemplates\Stopwatch.cshtml" />
-    <Content Include="Views\Loading\ControlPanel.cshtml" />
+    <Content Include="Views\Loading\_ControlPanel.cshtml" />
     <Content Include="Views\Loading\NewTransactionModal.cshtml" />
     <Content Include="Views\Loading\ConfirmFinishModal.cshtml" />
   </ItemGroup>
