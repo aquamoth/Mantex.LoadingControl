@@ -8,8 +8,9 @@
     </div>
     <div class="panel-body">
 
-        <form role="form">
-
+        @using (Html.BeginForm("Index", "Loading", FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
             <div class="row">
                 <div class="col-xs-12 col-sm-12">
                     @* Transaktionslista*@
@@ -23,7 +24,7 @@
                             </div>
                         </div>
                         <div class="transaction-table">
-                            @Html.DisplayFor(m => m.Transactions, "SmallTransactionTable", new { ActiveTransactionId = activeTransactionId })
+                            @Html.EditorFor(m => m.SelectedTransaction, "SmallTransactionTable", new { Transactions = Model.Transactions, ActiveTransactionId = activeTransactionId })
                         </div>
                     </div>
                 </div>
@@ -32,14 +33,13 @@
                         <label for="MaterialTypeSelect">Material</label>
                         @Html.DropDownListFor(m => m.SelectedMaterialType, new SelectList(Model.MaterialTypes, "Id", "Name"), new { Id = "MaterialTypeSelect", @Class = "form-control" })
                     </div>
-
                     <div class="form-group">
                         @button("Starta", activeTransactionId == null)
                     </div>
                 </div>
             </div>
-        </form>
-
+            @Html.Partial("_ValidationSummary")
+        }
     </div>
 </div>
 

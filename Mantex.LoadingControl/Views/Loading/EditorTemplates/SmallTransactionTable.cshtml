@@ -1,12 +1,15 @@
-﻿@model IEnumerable<Mantex.ERP.Data.Transaction>
+﻿@model string
+@{
+    var transactions = (IEnumerable<Mantex.ERP.Data.Transaction>)ViewBag.Transactions;
+}
 <table class="table table-hover">
     <tbody>
-        @foreach (var transaction in Model)
+        @foreach (var transaction in transactions)
         {
             <tr class="@RowClassFor(transaction.Id)">
                 <td>
                     @if(!isActive(transaction.Id)){
-                        @Html.RadioButton("Select", transaction.Id)
+                        @Html.RadioButtonFor(m => m, transaction.Id)
                     }
                 </td>
                 <td>@SuffixOf(transaction.Id)</td>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Mantex</title>
     @Styles.Render("~/Content/css")
+    @Html.EmitRequiredStyles()
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -23,7 +24,7 @@
                     <li>@Html.ActionLink("Startsida", "Index", "Home")</li>
                     <li>@Html.ActionLink("Lossning", "Index", "Loading")</li>
                     @*<li>@Html.ActionLink("Om...", "About", "Home")</li>
-                    <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>*@
+                        <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>*@
                 </ul>
             </div>
         </div>
@@ -38,6 +39,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Html.EmitRequiredScripts()
     @RenderSection("scripts", required: false)
 </body>
 </html>

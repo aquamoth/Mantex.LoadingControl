@@ -24,8 +24,9 @@ namespace Mantex.LoadingControl
 						"~/Scripts/respond.js"));
 
 			bundles.Add(new StyleBundle("~/Content/css").Include(
-				"~/Content/bootstrap-readable.css"
-				,"~/Content/custom.css"
+				//"~/Content/bootstrap.css",
+				"~/Content/bootstrap-readable.css",
+				"~/Content/custom.css"
 				));
 
 			// Set EnableOptimizations to false for debugging. For more information,

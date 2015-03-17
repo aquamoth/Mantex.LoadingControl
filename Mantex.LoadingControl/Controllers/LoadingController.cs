@@ -1,4 +1,5 @@
 ﻿using Mantex.ERP.Logic;
+using Mantex.LoadingControl.Helpers;
 using Mantex.LoadingControl.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace Mantex.LoadingControl.Controllers
 {
 	public class LoadingController : Controller
 	{
+		[HttpGet]
+		[RestoreModelStateFromTempData]
 		public ActionResult Index()
 		{
 			var transactionLogic = new TransactionLogic();
@@ -25,6 +28,19 @@ namespace Mantex.LoadingControl.Controllers
 				ActiveBatch = activeBatch
 			};
 			return View(model);
+		}
+
+		[HttpPost]
+		[ActionName("Index")]
+		[ValidateAntiForgeryToken]
+		[SetTempDataModelState]
+		public ActionResult Index_Post(LoadingModels.IndexPostModel model)
+		{
+			if(ModelState.IsValid)
+			{
+				//TODO: Try complete action
+			}
+			return RedirectToAction("Index");
 		}
 
 		[ChildActionOnly]

@@ -1,0 +1,10 @@
+﻿@*http://chadkuehn.com/convert-razor-validation-summary-into-bootstrap-alert/*@
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <a class="close" data-dismiss="alert">×</a>
+        <h4 class="alert-heading">Det gick inte att utföra åtgärden</h4>
+        @Html.ValidationSummary(false)
+    </div>
+}
+@Html.RequireScript("~/Scripts/validation-summary.js")

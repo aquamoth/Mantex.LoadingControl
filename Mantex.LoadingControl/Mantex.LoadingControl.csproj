@@ -116,6 +116,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ModelStateFilters.cs" />
+    <Compile Include="Helpers\ScriptsHtmlHelpers.cs" />
     <Compile Include="Models\LoadingModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -150,8 +152,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\validation-summary.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Loading\DisplayTemplates\SmallTransactionTable.cshtml">
+    <Content Include="Views\Loading\EditorTemplates\SmallTransactionTable.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Web.config" />
@@ -181,9 +184,11 @@
     <Content Include="Views\Loading\_ControlPanel.cshtml" />
     <Content Include="Views\Loading\NewTransactionModal.cshtml" />
     <Content Include="Views\Loading\ConfirmFinishModal.cshtml" />
+    <Content Include="Views\Shared\_ValidationSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Shared\DisplayTemplate\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
