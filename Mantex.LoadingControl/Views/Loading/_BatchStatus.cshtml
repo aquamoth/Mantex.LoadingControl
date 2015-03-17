@@ -24,20 +24,25 @@
                     @Html.Partial("_BatchInfo", transaction)
                 </div>
             </div>
-            <br/>
+            <br />
             <div class="row">
                 <div class="col-xs-12">
                     @Html.Action("Progress", "Loading", new { Id = transaction.Id })
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-6 col-sm-12 col-md-6">
-                    @button("Stanna", true)
+            using (Html.BeginForm("StopBatch", "Loading", FormMethod.Post, new { role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("Id", Model.ActiveBatch.Id)
+                <div class="row">
+                    <div class="col-xs-6 col-sm-12 col-md-6">
+                        @button("Stanna", true)
+                    </div>
+                    <div class="col-xs-6 col-sm-12 col-md-6">
+                        @dialogButton("Avsluta Transaktionen", "ConfirmFinishModal", true, "btn-block")
+                    </div>
                 </div>
-                <div class="col-xs-6 col-sm-12 col-md-6">
-                    @dialogButton("Avsluta Transaktionen", "ConfirmFinishModal", true, "btn-block")
-                </div>
-            </div>
+            }
         }
     </div>
     <div class="panel-footer">
@@ -52,7 +57,7 @@
     {
         className += " disabled";
     }
-    <button class="btn btn-primary @className">@text</button>
+    <button type="submit" class="btn btn-primary @className">@text</button>
 }
 @helper dialogButton(string text, string dialogBoxId, bool isEnabled, string className = "")
 {

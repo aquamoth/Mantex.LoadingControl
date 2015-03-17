@@ -10,118 +10,18 @@ namespace Mantex.ERP.Logic
     {
 		public IEnumerable<Data.Transaction> GetCurrentTransactions()
 		{
-			yield return new Data.Transaction
-			{
-				Id = "SF-87104",
-				Name = "Everst #27",
-				Description = "Starta försiktigt ifall det finns sten i.",
-				MaterialTypeId = 1,
-				MaterialType = this.AvailableMaterialTypes().Single(mt => mt.Id == 1),
-				ShippingDate = DateTime.Today,
-				ExpectedWeight = 23503,
-				ShippingMethod = "Båt",
-				Supplier = "Sunnanö"
-			};
-			yield return new Data.Transaction
-			{
-				Id = "SF-87105",
-				Name = "Alfred",
-				Description = null,
-				MaterialTypeId = 1,
-				MaterialType = this.AvailableMaterialTypes().Single(mt => mt.Id == 1),
-				ShippingDate = DateTime.Today.AddDays(1),
-				ExpectedWeight = 12422,
-				ShippingMethod = "Båt",
-				Supplier = "Sunnanö"
-			};
-			yield return new Data.Transaction
-			{
-				Id = "SF-87106",
-				Name = "Lollipop",
-				Description = null,
-				MaterialTypeId = 1,
-				MaterialType = this.AvailableMaterialTypes().Single(mt => mt.Id == 1),
-				ShippingDate = DateTime.Today.AddDays(2),
-				ExpectedWeight = 15201,
-				ShippingMethod = "Båt",
-				Supplier = "Sunnanö"
-			};
-			yield return new Data.Transaction
-			{
-				Id = "SF-87107",
-				Name = "Mandarin",
-				Description = null,
-				MaterialTypeId = 2,
-				MaterialType = this.AvailableMaterialTypes().Single(mt => mt.Id == 2),
-				ShippingDate = DateTime.Today.AddDays(2),
-				ExpectedWeight = 17221,
-				ShippingMethod = "Båt",
-				Supplier = "Sunnanö"
-			};
-			yield return new Data.Transaction
-			{
-				Id = "SF-87108",
-				Name = "Russian Velvet",
-				Description = null,
-				MaterialTypeId = 1,
-				MaterialType = this.AvailableMaterialTypes().Single(mt => mt.Id == 1),
-				ShippingDate = DateTime.Today.AddDays(3),
-				ExpectedWeight = 8282,
-				ShippingMethod = "Båt",
-				Supplier = "Sunnanö"
-			};
+			return _currentTransactions;
 		}
 
 		public IEnumerable<Data.MaterialType> AvailableMaterialTypes()
 		{
-			yield return new Data.MaterialType { Id = 1, Name = "Gran" };
-			yield return new Data.MaterialType { Id = 2, Name = "Grot" };
-			yield return new Data.MaterialType { Id = 3, Name = "Returflis" };
-			yield return new Data.MaterialType { Id = 4, Name = "Returpapper" };
+			return _materialTypes;
 		}
 
 		public Data.Transaction GetActiveTransaction()
 		{
 			return _currentTransaction;
-
-			//var transaction = new Data.Transaction
-			//{
-			//	Id = "SF-87106",
-			//	Name = "Lollipop",
-			//	Description = null,
-			//	MaterialTypeId = 1,
-			//	MaterialType = this.AvailableMaterialTypes().Single(mt => mt.Id == 1),
-			//	ShippingDate = DateTime.Today.AddDays(2),
-			//	ExpectedWeight = 15201,
-			//	ShippingMethod = "Båt",
-			//	Supplier = "Sunnanö"
-			//};
-
-			//transaction.Batches.Add(new Data.Batch
-			//{
-			//	Id = 76123,
-			//	StartTime = DateTime.Now.AddDays(-1).AddHours(-4).AddMinutes(15).AddSeconds(-11),
-			//	EndTime = DateTime.Now.AddDays(-1).AddHours(-3),
-			//	MaterialTypeId = 1,
-			//	MaterialType = this.AvailableMaterialTypes().Single(mt => mt.Id == 1),
-			//	Transaction = transaction,
-			//	TransactionId = transaction.Id
-			//});
-
-			//transaction.Batches.Add(new Data.Batch
-			//{
-			//	Id = 76282,
-			//	StartTime = DateTime.Now.AddHours(-3).AddMinutes(5).AddSeconds(-26),
-			//	EndTime = null,
-			//	MaterialTypeId = 3,
-			//	MaterialType = this.AvailableMaterialTypes().Single(mt => mt.Id == 3),
-			//	Transaction = transaction,
-			//	TransactionId = transaction.Id
-			//});
-
-			//return transaction;
 		}
-		static Data.Transaction _currentTransaction = null; //TODO: Temporary testing variable. Replace with DB access
 
 		public void StartTransaction(string transactionId, int materialTypeId)
 		{
@@ -141,7 +41,7 @@ namespace Mantex.ERP.Logic
 
 			var batch = new Data.Batch
 			{
-				Id = 1,
+				Id = new Random().Next(1, 100000),
 				MaterialTypeId = materialTypeId,
 				MaterialType = materialType,
 				StartTime = DateTime.Now,
@@ -153,5 +53,119 @@ namespace Mantex.ERP.Logic
 
 			_currentTransaction = transaction;
 		}
+
+		public void StopBatch(int Id)
+		{
+#warning Not thread safe!
+			var batch = batchWithId(Id);
+			if (batch == null)
+				throw new ArgumentException(string.Format("Batch '{0}' finns inte.", Id));
+
+			if (batch.EndTime.HasValue)
+				throw new NotSupportedException(string.Format("Batch '{0}' har redan stoppats.", Id));
+
+			batch.EndTime = DateTime.Now;
+			if (batch.Transaction == _currentTransaction)
+				_currentTransaction = null;
+		}
+
+
+
+
+		Data.Batch batchWithId(int id)
+		{
+			var transactions = this.GetCurrentTransactions();
+			var batches = transactions.SelectMany(t => t.Batches);
+			var batch = batches.SingleOrDefault(b => b.Id == id);
+			return batch;
+		}
+
+
+		#region FAKE DATA LAYER
+
+		static readonly List<Data.MaterialType> _materialTypes;
+		static readonly List<Data.Transaction> _currentTransactions;
+		static Data.Transaction _currentTransaction = null;
+
+		static TransactionLogic()
+		{
+			_materialTypes = createMaterialTypes().ToList();
+			_currentTransactions = createTransactions().ToList();
+		}
+
+		static IEnumerable<Data.MaterialType> createMaterialTypes()
+		{
+			yield return new Data.MaterialType { Id = 1, Name = "Gran" };
+			yield return new Data.MaterialType { Id = 2, Name = "Grot" };
+			yield return new Data.MaterialType { Id = 3, Name = "Returflis" };
+			yield return new Data.MaterialType { Id = 4, Name = "Returpapper" };
+		}
+
+		static IEnumerable<Data.Transaction> createTransactions()
+		{
+			yield return new Data.Transaction
+			{
+				Id = "SF-87104",
+				Name = "Everst #27",
+				Description = "Starta försiktigt ifall det finns sten i.",
+				MaterialTypeId = 1,
+				MaterialType = _materialTypes.Single(mt => mt.Id == 1),
+				ShippingDate = DateTime.Today,
+				ExpectedWeight = 23503,
+				ShippingMethod = "Båt",
+				Supplier = "Sunnanö"
+			};
+			yield return new Data.Transaction
+			{
+				Id = "SF-87105",
+				Name = "Alfred",
+				Description = null,
+				MaterialTypeId = 1,
+				MaterialType = _materialTypes.Single(mt => mt.Id == 1),
+				ShippingDate = DateTime.Today.AddDays(1),
+				ExpectedWeight = 12422,
+				ShippingMethod = "Båt",
+				Supplier = "Sunnanö"
+			};
+			yield return new Data.Transaction
+			{
+				Id = "SF-87106",
+				Name = "Lollipop",
+				Description = null,
+				MaterialTypeId = 1,
+				MaterialType = _materialTypes.Single(mt => mt.Id == 1),
+				ShippingDate = DateTime.Today.AddDays(2),
+				ExpectedWeight = 15201,
+				ShippingMethod = "Båt",
+				Supplier = "Sunnanö"
+			};
+			yield return new Data.Transaction
+			{
+				Id = "SF-87107",
+				Name = "Mandarin",
+				Description = null,
+				MaterialTypeId = 2,
+				MaterialType = _materialTypes.Single(mt => mt.Id == 2),
+				ShippingDate = DateTime.Today.AddDays(2),
+				ExpectedWeight = 17221,
+				ShippingMethod = "Båt",
+				Supplier = "Sunnanö"
+			};
+			yield return new Data.Transaction
+			{
+				Id = "SF-87108",
+				Name = "Russian Velvet",
+				Description = null,
+				MaterialTypeId = 1,
+				MaterialType = _materialTypes.Single(mt => mt.Id == 1),
+				ShippingDate = DateTime.Today.AddDays(3),
+				ExpectedWeight = 8282,
+				ShippingMethod = "Båt",
+				Supplier = "Sunnanö"
+			};
+
+		}
+
+		#endregion FAKE DATA LAYER
 	}
 }
