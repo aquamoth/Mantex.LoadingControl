@@ -1,17 +1,44 @@
 ﻿<div id="NewTransactionModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Lägg till Transaktion</h4>
-            </div>
-            <div class="modal-body">
-                <p>Modal ruta i Partial. Yadda yadda</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
-                <button type="button" class="btn btn-primary">Spara</button>
-            </div>
+            @using (Html.BeginForm("NewTransaction", "Loading", FormMethod.Post, new { role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Lägg till Transaktion</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        @Html.Label("Id", "Nummer:")
+                        @Html.TextBox("Id", "", new { @Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Name", "Namn:")
+                        @Html.TextBox("Name", "", new { @Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Supplier", "Leverantör:")
+                        @Html.TextBox("Supplier", "", new { @Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("ShippingDate", "Ankomst:")
+                        @Html.TextBox("ShippingDate", "", new { @Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("ExpectedWeight", "Vikt:")
+                        @Html.TextBox("ExpectedWeight", "", new { @Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Description", "Kommentar:")
+                        @Html.TextArea("Description", "", new { @Class = "form-control" })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+                    <button type="submit" class="btn btn-primary">Spara</button>
+                </div>
+            }
         </div>
     </div>
 </div>

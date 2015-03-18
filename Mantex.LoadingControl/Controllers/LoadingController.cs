@@ -31,10 +31,31 @@ namespace Mantex.LoadingControl.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[SetTempDataModelState]
+		public ActionResult NewTransaction(Mantex.ERP.Data.Transaction model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					model.MaterialTypeId = 1;
+					var transactionLogic = new TransactionLogic();
+					transactionLogic.Create(model);
+				}
+				catch (Exception ex)
+				{
+					ModelState.AddModelError("", ex.Message);
+				}
+			}
+			return RedirectToAction("Index");
+		}
+
+		[HttpPost]
 		[ActionName("Index")]
 		[ValidateAntiForgeryToken]
 		[SetTempDataModelState]
-		public ActionResult Index_Post(LoadingModels.IndexPostModel model)
+		public ActionResult StartBatch(LoadingModels.IndexPostModel model)
 		{
 			if (ModelState.IsValid)
 			{

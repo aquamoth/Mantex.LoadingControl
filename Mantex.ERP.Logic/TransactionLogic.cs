@@ -70,6 +70,28 @@ namespace Mantex.ERP.Logic
 			_currentTransactions.Remove(transaction);
 		}
 
+		public void Create(Data.Transaction model)
+		{
+			var transactionId = "MX-" + model.Id;
+			if (_currentTransactions.Any(t => t.Id == transactionId))
+				throw new ArgumentException("Transaktionsnumret finns redan.");
+			var materialType = getMaterialType(model.MaterialTypeId);
+
+			var transaction = new Data.Transaction
+			{
+				Id = transactionId,
+				Name = model.Name,
+				Description = model.Description,
+				MaterialTypeId = materialType.Id,
+				MaterialType = materialType,
+				ShippingDate = model.ShippingDate,
+				ExpectedWeight = model.ExpectedWeight,
+				ShippingMethod = model.ShippingMethod,
+				Supplier = model.Supplier
+			};
+			_currentTransactions.Add(transaction);
+		}
+
 
 
 
