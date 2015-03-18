@@ -20,25 +20,90 @@ namespace Mantex.ERP.Logic
 
 		public Data.Transaction GetActiveTransaction()
 		{
-			return _currentTransaction;
+			return _activeTransaction;
 		}
 
 		public void StartTransaction(string transactionId, int materialTypeId)
 		{
 #warning Not thread safe!
-			if (_currentTransaction != null)
-				throw new NotSupportedException(string.Format("Transaktion '{0}' måste stoppas först.", _currentTransaction.Id));
+			if (_activeTransaction != null)
+				throw new NotSupportedException(string.Format("Transaktion '{0}' måste stoppas först.", _activeTransaction.Id));
 
+			var transaction = getTransaction(transactionId);
+			var materialType = getMaterialType(materialTypeId);
+			addNewBatch(transaction, materialType);
+
+			_activeTransaction = transaction;
+		}
+
+		public void StopBatch(int Id)
+		{
+#warning Not thread safe!
+			var batch = getBatch(Id);
+			if (batch == null)
+				throw new ArgumentException(string.Format("Batch '{0}' finns inte.", Id));
+
+			if (batch.EndTime.HasValue)
+				throw new NotSupportedException(string.Format("Batch '{0}' har redan stoppats.", Id));
+
+			batch.EndTime = DateTime.Now;
+			if (batch.Transaction == _activeTransaction)
+				_activeTransaction = null;
+		}
+
+		public void FinishTransaction(string Id)
+		{
+			var transaction = getTransaction(Id);
+			
+			var isFinished = transaction.Batches.Any(b => b.IsFinished);
+			if (isFinished)
+				throw new NotSupportedException("Transaktionen har redan avslutats.");
+		
+			var batch = transaction.Batches.SingleOrDefault(b => !b.EndTime.HasValue);
+			if (batch == null)
+				throw new NotSupportedException("Transaktionen måste startas innan den kan avslutas.");
+
+			batch.EndTime = DateTime.Now;
+			batch.IsFinished = true;
+			if (batch.Transaction == _activeTransaction)
+				_activeTransaction = null;
+			_currentTransactions.Remove(transaction);
+		}
+
+
+
+
+
+		private Data.Transaction getTransaction(string transactionId)
+		{
 			var transactions = this.GetCurrentTransactions();
-			var transaction = transactions.FirstOrDefault(t => t.Id == transactionId);
+			var transaction = transactions.SingleOrDefault(t => t.Id == transactionId);
 			if (transaction == null)
 				throw new ArgumentException(string.Format("Transaktion '{0}' hittades inte.", transactionId));
+			return transaction;
+		}
 
+		private Data.MaterialType getMaterialType(int materialTypeId)
+		{
 			var materialTypes = this.AvailableMaterialTypes();
 			var materialType = materialTypes.FirstOrDefault(mt => mt.Id == materialTypeId);
 			if (materialType == null)
 				throw new ArgumentException("Materialtypen finns inte.");
+			return materialType;
+		}
 
+		private Data.Batch getBatch(int id)
+		{
+			var transactions = this.GetCurrentTransactions();
+			var batches = transactions.SelectMany(t => t.Batches);
+			var batch = batches.SingleOrDefault(b => b.Id == id);
+			return batch;
+		}
+
+		private void addNewBatch(Data.Transaction transaction, Data.MaterialType materialType)
+		{
+			string transactionId = transaction.Id;
+			int materialTypeId = materialType.Id;
 			var batch = new Data.Batch
 			{
 				Id = new Random().Next(1, 100000),
@@ -50,42 +115,13 @@ namespace Mantex.ERP.Logic
 				Transaction = transaction
 			};
 			transaction.Batches.Add(batch);
-
-			_currentTransaction = transaction;
 		}
-
-		public void StopBatch(int Id)
-		{
-#warning Not thread safe!
-			var batch = batchWithId(Id);
-			if (batch == null)
-				throw new ArgumentException(string.Format("Batch '{0}' finns inte.", Id));
-
-			if (batch.EndTime.HasValue)
-				throw new NotSupportedException(string.Format("Batch '{0}' har redan stoppats.", Id));
-
-			batch.EndTime = DateTime.Now;
-			if (batch.Transaction == _currentTransaction)
-				_currentTransaction = null;
-		}
-
-
-
-
-		Data.Batch batchWithId(int id)
-		{
-			var transactions = this.GetCurrentTransactions();
-			var batches = transactions.SelectMany(t => t.Batches);
-			var batch = batches.SingleOrDefault(b => b.Id == id);
-			return batch;
-		}
-
 
 		#region FAKE DATA LAYER
 
 		static readonly List<Data.MaterialType> _materialTypes;
 		static readonly List<Data.Transaction> _currentTransactions;
-		static Data.Transaction _currentTransaction = null;
+		static Data.Transaction _activeTransaction = null;
 
 		static TransactionLogic()
 		{

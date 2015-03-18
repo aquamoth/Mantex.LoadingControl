@@ -68,6 +68,23 @@ namespace Mantex.LoadingControl.Controllers
 			return RedirectToAction("Index");
 		}
 
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[SetTempDataModelState]
+		public ActionResult FinishTransaction(string Id)
+		{
+			try
+			{
+				var transactionLogic = new TransactionLogic();
+				transactionLogic.FinishTransaction(Id);
+			}
+			catch (Exception ex)
+			{
+				ModelState.AddModelError("", ex.Message);
+			}
+			return RedirectToAction("Index");
+		}
+
 		[ChildActionOnly]
 		public ActionResult Progress(string Id)
 		{

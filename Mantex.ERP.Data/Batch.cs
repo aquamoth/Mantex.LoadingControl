@@ -11,6 +11,7 @@ namespace Mantex.ERP.Data
 		public int Id { get; set; }
 		public DateTime StartTime { get; set; }
 		public DateTime? EndTime { get; set; }
+		public bool IsFinished { get; set; }
 
 		public string TransactionId { get; set; }
 		public Transaction Transaction { get; set; }

@@ -49,6 +49,10 @@
         @Html.Action("MachineStatus", "Loading")
     </div>
 </div>
+@if (Model.ActiveBatch != null)
+{
+    @Html.Partial("ConfirmFinishModal", Model.ActiveBatch)
+}
 
 
 @helper button(string text, bool isEnabled, string className = "btn-block")
