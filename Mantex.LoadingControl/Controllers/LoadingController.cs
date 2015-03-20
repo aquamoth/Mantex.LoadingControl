@@ -61,8 +61,17 @@ namespace Mantex.LoadingControl.Controllers
 			{
 				try
 				{
+#warning Starting a batch must be transactional
+
 					var transactionLogic = new TransactionLogic();
 					transactionLogic.StartTransaction(model.SelectedTransaction, model.SelectedMaterialType);
+
+					var flowScannerLogic = new FlowScannerLogic();
+					var machineStatus = flowScannerLogic.GetStatus();
+					if (machineStatus == Mantex.ERP.Data.MachineStatusEnum.Working)
+					{
+						flowScannerLogic.StartMeasure(model.SelectedTransaction, model.SelectedMaterialType);
+					}
 				}
 				catch (Exception ex)
 				{
@@ -77,10 +86,12 @@ namespace Mantex.LoadingControl.Controllers
 		[SetTempDataModelState]
 		public ActionResult StopBatch(int Id)
 		{
+#warning Stopping a batch must be transactional
 			try
 			{
 				var transactionLogic = new TransactionLogic();
 				transactionLogic.StopBatch(Id);
+				new FlowScannerLogic().StopMeasure();
 			}
 			catch (Exception ex)
 			{
@@ -94,10 +105,12 @@ namespace Mantex.LoadingControl.Controllers
 		[SetTempDataModelState]
 		public ActionResult FinishTransaction(string Id)
 		{
+#warning Finishing a batch must be transactional
 			try
 			{
 				var transactionLogic = new TransactionLogic();
 				transactionLogic.FinishTransaction(Id);
+				new FlowScannerLogic().StopMeasure();
 			}
 			catch (Exception ex)
 			{
@@ -109,14 +122,26 @@ namespace Mantex.LoadingControl.Controllers
 		[ChildActionOnly]
 		public ActionResult Progress(string Id)
 		{
-			int percentage = 35;
+			var transactionLogic = new TransactionLogic();
+			var transaction = transactionLogic.GetActiveTransaction();
+
+			var totalSeconds = transaction.Batches.Select(b =>
+				{
+					var seconds = (b.EndTime ?? DateTime.Now).Subtract(b.StartTime).TotalSeconds;
+					return seconds;
+				}).Sum();
+
+			var percentage = 100 - (int)(100.0 / (1 + totalSeconds / 60));
+
 			return PartialView(percentage);
 		}
 
 		[ChildActionOnly]
 		public ActionResult MachineStatus()
 		{
-			return PartialView();
+			var flowScannerLogic = new FlowScannerLogic();
+			var model = flowScannerLogic.GetStatus();
+			return PartialView("MachineStatus", model);
 		}
 	}
 }

@@ -1,4 +1,24 @@
-﻿<div class="panel-body text-center text-success">
-    FlowScanner Arbetar...
+﻿@model Mantex.ERP.Data.MachineStatusEnum
+@{
+    var panelClass = Model < Mantex.ERP.Data.MachineStatusEnum.Working
+        ? "text-warning" : "text-success";
+}
+<div class="panel-body text-center @panelClass">
+    @ModelAsText()
 </div>
 
+@functions{
+    string ModelAsText()
+    {
+        switch (Model)
+        {
+            case Mantex.ERP.Data.MachineStatusEnum.Offline: return "FlowScanner är offline.";
+            case Mantex.ERP.Data.MachineStatusEnum.Online: return "FlowScanner är online men inte startad.";
+            case Mantex.ERP.Data.MachineStatusEnum.Working: return "FlowScanner arbetar.";
+            case Mantex.ERP.Data.MachineStatusEnum.WaitingForEmptyBelt: return "Vänta på att bandet är tomt.";
+            case Mantex.ERP.Data.MachineStatusEnum.Measuring: return "Klart att lasta material på bandet.";
+            default:
+                throw new NotImplementedException();
+        }
+    }
+}
