@@ -125,13 +125,14 @@ namespace Mantex.LoadingControl.Controllers
 			var transactionLogic = new TransactionLogic();
 			var transaction = transactionLogic.GetActiveTransaction();
 
-			var totalSeconds = transaction.Batches.Select(b =>
+			var secondsOfProduction = transaction.Batches.Select(b =>
 				{
 					var seconds = (b.EndTime ?? DateTime.Now).Subtract(b.StartTime).TotalSeconds;
 					return seconds;
 				}).Sum();
 
-			var percentage = 100 - (int)(100.0 / (1 + totalSeconds / 60));
+			var secondsToHalfDone = 60;
+			var percentage = (int)(100 * secondsOfProduction / (secondsOfProduction + secondsToHalfDone));
 
 			return PartialView(percentage);
 		}
