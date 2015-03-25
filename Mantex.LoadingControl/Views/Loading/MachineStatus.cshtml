@@ -14,8 +14,8 @@
         {
             case Mantex.ERP.Data.MachineStatusEnum.Offline: return "FlowScanner är offline.";
             case Mantex.ERP.Data.MachineStatusEnum.Online: return "FlowScanner är online men inte startad.";
-            case Mantex.ERP.Data.MachineStatusEnum.Working: return "FlowScanner arbetar.";
-            case Mantex.ERP.Data.MachineStatusEnum.WaitingForEmptyBelt: return "Vänta på att bandet är tomt.";
+            case Mantex.ERP.Data.MachineStatusEnum.Working: return "FlowScanner väntar på transaktion.";
+            case Mantex.ERP.Data.MachineStatusEnum.WaitingForEmptyBelt: return "Vänta på klartecken för lastning.";
             case Mantex.ERP.Data.MachineStatusEnum.Measuring: return "Klart att lasta material på bandet.";
             default:
                 throw new NotImplementedException();
