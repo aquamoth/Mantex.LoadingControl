@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Mantex.LoadingControl.Controllers
 {
+	[Authorize(Roles="Users")]
 	public class LoadingController : Controller
 	{
 		[HttpGet]

@@ -1,0 +1,22 @@
+﻿@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-sm-6 col-md-5">
+            @Html.Label("Username", "Username:")
+            @Html.TextBox("Username")
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-5">
+            @Html.Label("Password", "Password:")
+            @Html.Password("Password")
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-5">
+            <input type="submit" value="Login" />
+        </div>
+    </div>
+}
