@@ -30,6 +30,21 @@ namespace Mantex.LDAP.Configuration
 			BaseAdd(element);
 		}
 
+		public void Clear()
+		{
+			BaseClear();
+		}
+
+		public void Remove(T element)
+		{
+			BaseRemove(element);
+		}
+
+		public void RemoveAt(int index)
+		{
+			BaseRemoveAt(index);
+		}
+
 		public T this[int index]
 		{
 			get

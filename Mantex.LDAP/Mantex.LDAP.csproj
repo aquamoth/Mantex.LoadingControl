@@ -43,6 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\WebConfigRolesCollection.cs" />
+    <Compile Include="Configuration\WebConfigRolesElement.cs" />
+    <Compile Include="Configuration\WebConfigRoleProviderSection.cs" />
+    <Compile Include="Role.cs" />
+    <Compile Include="WebConfigRoleProvider.cs" />
     <Compile Include="Configuration\BaseConfigurationElementCollection.cs" />
     <Compile Include="Configuration\MappingsCollection.cs" />
     <Compile Include="Configuration\MappingElement.cs" />
@@ -50,6 +55,7 @@
     <Compile Include="LdapRoleProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebConfigMembershipProvider.cs" />
+    <Compile Include="WebConfigRolesRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
