@@ -39,6 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -127,6 +133,7 @@
     <Compile Include="ApiModels\Api1Models.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IoCConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -137,6 +144,7 @@
     <Compile Include="App_Start\BrowserJsonFormatter.cs" />
     <Compile Include="Helpers\ModelStateFilters.cs" />
     <Compile Include="Helpers\ScriptsHtmlHelpers.cs" />
+    <Compile Include="Installers\ControllersInstaller.cs" />
     <Compile Include="Models\LoadingModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

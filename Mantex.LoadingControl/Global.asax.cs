@@ -18,6 +18,12 @@ namespace Mantex.LoadingControl
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
+			IoCConfig.BootstrapContainer();
+		}
+
+		protected void Application_End()
+		{
+			IoCConfig.Shutdown();
 		}
 	}
 }
