@@ -33,53 +33,53 @@ namespace Mantex.LoadingControl.Tests.ApiControllers
 		}
 
 		[TestMethod]
-		public void IsAlive()
+		public void Api1_IsAlive()
 		{
 			bool response = _controller.IsAlive();
 			Assert.IsTrue(response);
 		}
 
-		[TestMethod]
-		public void Transactions()
-		{
-			//// Arrange
-			//_controller.Request.RequestUri = new Uri("http://localhost/api1/transactions");
+		//[TestMethod]
+		//public void Api1_Transactions()
+		//{
+		//	//// Arrange
+		//	//_controller.Request.RequestUri = new Uri("http://localhost/api1/transactions");
 
-			//_controller.RequestContext.RouteData = new HttpRouteData(
-			//		route: new HttpRoute(),
-			//		values: new HttpRouteValueDictionary { { "action", "transactions" } 
-			//	});
+		//	//_controller.RequestContext.RouteData = new HttpRouteData(
+		//	//		route: new HttpRoute(),
+		//	//		values: new HttpRouteValueDictionary { { "action", "transactions" } 
+		//	//	});
 
-			// Act
-			var transaction = new Api1Models.TransactionOperation() { Id = "42", Name = "Trans1", IsDeleted = false };
-			/*var response = */_controller.Transactions(new[] { transaction });
+		//	// Act
+		//	var transaction = new Api1Models.TransactionOperation() { Id = "42", Name = "Trans1", IsDeleted = false };
+		//	/*var response = */_controller.Transactions(new[] { transaction });
 
-			//// Assert
-			//Assert.AreEqual("http://localhost/api/products/42", response.Headers.Location.AbsoluteUri);
-			Assert.Inconclusive();
-		}
+		//	//// Assert
+		//	//Assert.AreEqual("http://localhost/api/products/42", response.Headers.Location.AbsoluteUri);
+		//	Assert.Inconclusive();
+		//}
 
-		[TestMethod]
-		public void CountAnalysisResults()
-		{
-			int count;
-			count = _controller.CountAnalysisResults(null);
-			Assert.Inconclusive();
-		}
+		//[TestMethod]
+		//public void Api1_CountAnalysisResults()
+		//{
+		//	int count;
+		//	count = _controller.CountAnalysisResults(null);
+		//	Assert.Inconclusive();
+		//}
 
-		[TestMethod]
-		public void AnalysisResults()
-		{
-			Api1Models.AnalysisResults results = _controller.AnalysisResults(null, 1);
-			Assert.Inconclusive();
-		}
+		//[TestMethod]
+		//public void Api1_AnalysisResults()
+		//{
+		//	Api1Models.AnalysisResults results = _controller.AnalysisResults(null, 1);
+		//	Assert.Inconclusive();
+		//}
 
-		[TestMethod]
-		public void LabResults()
-		{
-			var labresult = new Api1Models.LabResultOperation() { Id = "4211", TransactionId = "42", Moisture = new Api1Models.AnalysisResultValue { Value = 46, StDev = 11 }, IsDeleted = false };
-			_controller.LabResults(new[] { labresult });
-			Assert.Inconclusive();
-		}
+		//[TestMethod]
+		//public void Api1_LabResults()
+		//{
+		//	var labresult = new Api1Models.LabResultOperation() { Id = "4211", TransactionId = "42", Moisture = new Api1Models.AnalysisResultValue { Value = 46, StDev = 11 }, IsDeleted = false };
+		//	_controller.LabResults(new[] { labresult });
+		//	Assert.Inconclusive();
+		//}
 	}
 }

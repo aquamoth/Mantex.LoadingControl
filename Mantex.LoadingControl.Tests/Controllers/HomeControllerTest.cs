@@ -13,7 +13,7 @@ namespace Mantex.LoadingControl.Tests.Controllers
 	public class HomeControllerTest
 	{
 		[TestMethod]
-		public void Index()
+		public void Home_Index()
 		{
 			// Arrange
 			HomeController controller = new HomeController();
@@ -26,7 +26,7 @@ namespace Mantex.LoadingControl.Tests.Controllers
 		}
 
 		[TestMethod]
-		public void About()
+		public void Home_About()
 		{
 			// Arrange
 			HomeController controller = new HomeController();
@@ -39,7 +39,7 @@ namespace Mantex.LoadingControl.Tests.Controllers
 		}
 
 		[TestMethod]
-		public void Contact()
+		public void Home_Contact()
 		{
 			// Arrange
 			HomeController controller = new HomeController();
