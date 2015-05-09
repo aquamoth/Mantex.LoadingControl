@@ -4,6 +4,12 @@
 
     <div class="row">
         <div class="col-sm-6 col-md-5">
+            @Html.ValidationSummary()
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-sm-6 col-md-5">
             @Html.Label("Username", "Username:")
             @Html.TextBox("Username")
         </div>
