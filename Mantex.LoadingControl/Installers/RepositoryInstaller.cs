@@ -9,9 +9,10 @@ namespace Mantex.LoadingControl.Installers
 	{
 		public void Install(IWindsorContainer container, IConfigurationStore store)
 		{
-			//container.Register(Classes.FromAssemblyContaining<Mantex.ERP.Data.IRepository>()
+			//container.Register(Classes.FromAssemblyContaining<Mantex.ERP.Data.EF.EFRepository>()
 			//					.BasedOn<Mantex.ERP.Data.IRepository>()
-			//					.LifestylePerWebRequest());
+			//					.WithServiceBase()
+			//					.LifestyleSingleton());
 			container.Register(Classes.FromAssemblyContaining<Mantex.ERP.Data.Fake.FakeRepository>()
 								.BasedOn<Mantex.ERP.Data.IRepository>()
 								.WithServiceBase()

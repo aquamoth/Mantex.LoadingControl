@@ -39,7 +39,10 @@ namespace Mantex.ERP.Services
 
 			var transaction = getTransaction(transactionId);
 			var materialType = getMaterialType(materialTypeId);
-			addNewBatch(transaction, materialType);
+			var loadionPosition = repository.LoadingPositions.Single();
+
+			addNewBatch(transaction, materialType, loadionPosition);
+			repository.SaveChanges();
 		}
 
 		public void StopBatch(int Id)
@@ -128,7 +131,7 @@ namespace Mantex.ERP.Services
 			return batch;
 		}
 
-		private void addNewBatch(Entities.Transaction transaction, Entities.MaterialType materialType)
+		private void addNewBatch(Entities.Transaction transaction, Entities.MaterialType materialType, Entities.LoadingPosition loadingPosition)
 		{
 			string transactionId = transaction.Id;
 			int materialTypeId = materialType.Id;
@@ -137,6 +140,7 @@ namespace Mantex.ERP.Services
 				Id = new Random().Next(1, 100000),
 				MaterialTypeId = materialTypeId,
 				MaterialType = materialType,
+				LoadingPosition = loadingPosition,
 				StartedAt = DateTime.Now,
 				//TODO: StartedBy = ???,
 				StoppedAt = null,

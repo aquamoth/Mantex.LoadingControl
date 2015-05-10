@@ -14,16 +14,16 @@ namespace Mantex.ERP.Data.EF
 		{
 		}
 
-		public virtual DbSet<Batch> Batches { get; set; }
-		public virtual DbSet<BeltSection> BeltSections { get; set; }
-		public virtual DbSet<Event> Events { get; set; }
-		public virtual DbSet<EventType> EventTypes { get; set; }
-		public virtual DbSet<LoadingPosition> LoadingPositions { get; set; }
-		public virtual DbSet<Machine> Machines { get; set; }
-		public virtual DbSet<MaterialType> MaterialTypes { get; set; }
-		public virtual DbSet<Measurement> Measurements { get; set; }
-		public virtual DbSet<Session> Sessions { get; set; }
-		public virtual DbSet<Transaction> Transactions { get; set; }
+		public virtual IDbSet<Batch> Batches { get; set; }
+		public virtual IDbSet<BeltSection> BeltSections { get; set; }
+		public virtual IDbSet<Event> Events { get; set; }
+		public virtual IDbSet<EventType> EventTypes { get; set; }
+		public virtual IDbSet<LoadingPosition> LoadingPositions { get; set; }
+		public virtual IDbSet<Machine> Machines { get; set; }
+		public virtual IDbSet<MaterialType> MaterialTypes { get; set; }
+		public virtual IDbSet<Measurement> Measurements { get; set; }
+		public virtual IDbSet<Session> Sessions { get; set; }
+		public virtual IDbSet<Transaction> Transactions { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
@@ -83,28 +83,5 @@ namespace Mantex.ERP.Data.EF
 				.WillCascadeOnDelete(false);
 		}
 
-		#region IRepository interface
-
-		IDbSet<Batch> IRepository.Batches
-		{
-			get { return this.Batches; }
-		}
-
-		IDbSet<MaterialType> IRepository.MaterialTypes
-		{
-			get { return this.MaterialTypes; }
-		}
-
-		IDbSet<Transaction> IRepository.Transactions
-		{
-			get { return this.Transactions; }
-		}
-
-		void IRepository.SaveChanges()
-		{
-			this.SaveChanges();
-		}
-
-		#endregion IRepository interface
 	}
 }

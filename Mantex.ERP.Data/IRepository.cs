@@ -12,8 +12,9 @@ namespace Mantex.ERP.Data
 	public interface IRepository
 	{
 		IDbSet<Batch> Batches { get; }
+		IDbSet<LoadingPosition> LoadingPositions { get; }
 		IDbSet<MaterialType> MaterialTypes { get; }
 		IDbSet<Transaction> Transactions { get; }
-		void SaveChanges();
+		int SaveChanges();
 	}
 }

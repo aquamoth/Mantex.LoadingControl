@@ -15,8 +15,10 @@ namespace Mantex.ERP.Data.Fake
 		{
 			this.MaterialTypes = new TestDbSet<MaterialType>(createMaterialTypes());
 			this.Transactions = new TestDbSet<Transaction>(createTransactions());
+			this.LoadingPositions = new TestDbSet<LoadingPosition>(createLoadingPositions());
 		}
 
+		public IDbSet<LoadingPosition> LoadingPositions { get; private set; }
 		public IDbSet<MaterialType> MaterialTypes { get; private set; }
 		public IDbSet<Transaction> Transactions { get; private set; }
 		public IDbSet<Batch> Batches 
@@ -27,8 +29,9 @@ namespace Mantex.ERP.Data.Fake
 			} 
 		}
 
-		public void SaveChanges()
+		public int SaveChanges()
 		{
+			return 0;
 		}
 
 
@@ -103,6 +106,11 @@ namespace Mantex.ERP.Data.Fake
 				Supplier = "Sunnanö"
 			};
 
+		}
+
+		private IEnumerable<LoadingPosition> createLoadingPositions()
+		{
+			yield return new LoadingPosition { Id = 1, Name = "Standard" };
 		}
 	}
 }
