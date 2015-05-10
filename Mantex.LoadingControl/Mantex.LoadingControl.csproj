@@ -156,6 +156,8 @@
     <Compile Include="Helpers\ScriptsHtmlHelpers.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
     <Compile Include="Installers\LoggerInstaller.cs" />
+    <Compile Include="Installers\RepositoryInstaller.cs" />
+    <Compile Include="Installers\ServicesInstaller.cs" />
     <Compile Include="Models\LoadingModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -240,6 +242,18 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mantex.ERP.Data.EF\Mantex.ERP.Data.EF.csproj">
+      <Project>{27241437-6f7b-48e4-b387-6277e3e227d6}</Project>
+      <Name>Mantex.ERP.Data.EF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mantex.ERP.Data.Fake\Mantex.ERP.Data.Fake.csproj">
+      <Project>{7005482b-dd54-44de-ad67-6c86ebe2d6ad}</Project>
+      <Name>Mantex.ERP.Data.Fake</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mantex.ERP.Data\Mantex.ERP.Data.csproj">
+      <Project>{31b915af-f381-4554-8a7f-f39d060449f6}</Project>
+      <Name>Mantex.ERP.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mantex.ERP.Entities\Mantex.ERP.Entities.csproj">
       <Project>{610eda12-afe4-4f58-8e40-e05abe412377}</Project>
       <Name>Mantex.ERP.Entities</Name>

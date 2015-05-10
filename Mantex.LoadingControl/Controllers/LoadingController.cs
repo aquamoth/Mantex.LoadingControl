@@ -12,11 +12,17 @@ namespace Mantex.LoadingControl.Controllers
 	[Authorize(Roles="Users")]
 	public class LoadingController : Controller
 	{
+		private readonly ITransactionLogic transactionLogic;
+
+		public LoadingController(ITransactionLogic transactionLogic)
+		{
+			this.transactionLogic = transactionLogic;
+		}
+
 		[HttpGet]
 		[RestoreModelStateFromTempData]
 		public ActionResult Index()
 		{
-			var transactionLogic = new TransactionLogic();
 			var activeTransaction = transactionLogic.GetActiveTransaction();
 			var activeBatch = activeTransaction == null 
 				? null 
@@ -41,7 +47,6 @@ namespace Mantex.LoadingControl.Controllers
 				try
 				{
 					model.MaterialTypeId = 1;
-					var transactionLogic = new TransactionLogic();
 					transactionLogic.Create(model);
 				}
 				catch (Exception ex)
@@ -64,7 +69,6 @@ namespace Mantex.LoadingControl.Controllers
 				{
 #warning Starting a batch must be transactional
 
-					var transactionLogic = new TransactionLogic();
 					transactionLogic.StartTransaction(model.SelectedTransaction, model.SelectedMaterialType);
 
 					var flowScannerLogic = new FlowScannerLogic();
@@ -90,7 +94,6 @@ namespace Mantex.LoadingControl.Controllers
 #warning Stopping a batch must be transactional
 			try
 			{
-				var transactionLogic = new TransactionLogic();
 				transactionLogic.StopBatch(Id);
 				new FlowScannerLogic().StopMeasure();
 			}
@@ -109,7 +112,6 @@ namespace Mantex.LoadingControl.Controllers
 #warning Finishing a batch must be transactional
 			try
 			{
-				var transactionLogic = new TransactionLogic();
 				transactionLogic.FinishTransaction(Id);
 				new FlowScannerLogic().StopMeasure();
 			}
@@ -123,7 +125,6 @@ namespace Mantex.LoadingControl.Controllers
 		[ChildActionOnly]
 		public ActionResult Progress(string Id)
 		{
-			var transactionLogic = new TransactionLogic();
 			var transaction = transactionLogic.GetActiveTransaction();
 
 			var secondsOfProduction = transaction.Batches.Select(b =>

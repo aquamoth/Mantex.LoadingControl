@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CBB47FED-BFD0-4ADB-AAC9-9C2F85A38146}</ProjectGuid>
+    <ProjectGuid>{7005482B-DD54-44DE-AD67-6C86EBE2D6AD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mantex.ERP.Services</RootNamespace>
-    <AssemblyName>Mantex.ERP.Services</AssemblyName>
+    <RootNamespace>Mantex.ERP.Data.Fake</RootNamespace>
+    <AssemblyName>Mantex.ERP.Data.Fake</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,9 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FlowScannerLogic.cs" />
-    <Compile Include="ITransactionLogic.cs" />
-    <Compile Include="TransactionLogic.cs" />
+    <Compile Include="DbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

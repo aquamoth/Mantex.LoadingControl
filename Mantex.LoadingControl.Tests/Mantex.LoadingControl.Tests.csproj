@@ -113,6 +113,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mantex.ERP.Data\Mantex.ERP.Data.csproj">
+      <Project>{31b915af-f381-4554-8a7f-f39d060449f6}</Project>
+      <Name>Mantex.ERP.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mantex.ERP.Entities\Mantex.ERP.Entities.csproj">
       <Project>{610eda12-afe4-4f58-8e40-e05abe412377}</Project>
       <Name>Mantex.ERP.Entities</Name>

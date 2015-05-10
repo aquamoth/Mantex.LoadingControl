@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mantex.ERP.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,34 +7,39 @@ using System.Threading.Tasks;
 
 namespace Mantex.ERP.Services
 {
-    public class TransactionLogic
+    public class TransactionLogic : Mantex.ERP.Services.ITransactionLogic
     {
+		private readonly IRepository repository;
+
+		public TransactionLogic(IRepository repository)
+		{
+			this.repository = repository;
+		}
+
 		public IEnumerable<Entities.Transaction> GetCurrentTransactions()
 		{
-			return _currentTransactions;
+			return repository.Transactions.Where(t => !t.Batches.Any() || t.Batches.Any(b => !b.IsFinished));
 		}
 
 		public IEnumerable<Entities.MaterialType> AvailableMaterialTypes()
 		{
-			return _materialTypes;
+			return repository.MaterialTypes;
 		}
 
 		public Entities.Transaction GetActiveTransaction()
 		{
-			return _activeTransaction;
+			return repository.Batches.Where(b => !b.EndTime.HasValue).Select(b => b.Transaction).SingleOrDefault();
 		}
 
 		public void StartTransaction(string transactionId, int materialTypeId)
 		{
-#warning Not thread safe!
-			if (_activeTransaction != null)
-				throw new NotSupportedException(string.Format("Transaktion '{0}' måste stoppas först.", _activeTransaction.Id));
+			var activeTransaction = GetActiveTransaction();
+			if (activeTransaction != null)
+				throw new NotSupportedException(string.Format("Transaktion '{0}' måste stoppas först.", activeTransaction.Id));
 
 			var transaction = getTransaction(transactionId);
 			var materialType = getMaterialType(materialTypeId);
 			addNewBatch(transaction, materialType);
-
-			_activeTransaction = transaction;
 		}
 
 		public void StopBatch(int Id)
@@ -47,8 +53,7 @@ namespace Mantex.ERP.Services
 				throw new NotSupportedException(string.Format("Batch '{0}' har redan stoppats.", Id));
 
 			batch.EndTime = DateTime.Now;
-			if (batch.Transaction == _activeTransaction)
-				_activeTransaction = null;
+			repository.SaveChanges();
 		}
 
 		public void FinishTransaction(string Id)
@@ -65,15 +70,13 @@ namespace Mantex.ERP.Services
 
 			batch.EndTime = DateTime.Now;
 			batch.IsFinished = true;
-			if (batch.Transaction == _activeTransaction)
-				_activeTransaction = null;
-			_currentTransactions.Remove(transaction);
+			repository.SaveChanges();
 		}
 
 		public void Create(Entities.Transaction model)
 		{
 			var transactionId = "MX-" + model.Id;
-			if (_currentTransactions.Any(t => t.Id == transactionId))
+			if (GetCurrentTransactions().Any(t => t.Id == transactionId))
 				throw new ArgumentException("Transaktionsnumret finns redan.");
 			var materialType = getMaterialType(model.MaterialTypeId);
 
@@ -89,7 +92,8 @@ namespace Mantex.ERP.Services
 				ShippingMethod = model.ShippingMethod,
 				Supplier = model.Supplier
 			};
-			_currentTransactions.Add(transaction);
+			repository.Transactions.Add(transaction);
+			repository.SaveChanges();
 		}
 
 
@@ -138,92 +142,5 @@ namespace Mantex.ERP.Services
 			};
 			transaction.Batches.Add(batch);
 		}
-
-		#region FAKE DATA LAYER
-
-		static readonly List<Entities.MaterialType> _materialTypes;
-		static readonly List<Entities.Transaction> _currentTransactions;
-		static Entities.Transaction _activeTransaction = null;
-
-		static TransactionLogic()
-		{
-			_materialTypes = createMaterialTypes().ToList();
-			_currentTransactions = createTransactions().ToList();
-		}
-
-		static IEnumerable<Entities.MaterialType> createMaterialTypes()
-		{
-			yield return new Entities.MaterialType { Id = 1, Name = "Gran" };
-			yield return new Entities.MaterialType { Id = 2, Name = "Grot" };
-			yield return new Entities.MaterialType { Id = 3, Name = "Returflis" };
-			yield return new Entities.MaterialType { Id = 4, Name = "Returpapper" };
-		}
-
-		static IEnumerable<Entities.Transaction> createTransactions()
-		{
-			yield return new Entities.Transaction
-			{
-				Id = "SF-87104",
-				Name = "Everst #27",
-				Description = "Starta försiktigt ifall det finns sten i.",
-				MaterialTypeId = 1,
-				MaterialType = _materialTypes.Single(mt => mt.Id == 1),
-				ShippingDate = DateTime.Today,
-				ExpectedWeight = 23503,
-				ShippingMethod = "Båt",
-				Supplier = "Sunnanö"
-			};
-			yield return new Entities.Transaction
-			{
-				Id = "SF-87105",
-				Name = "Alfred",
-				Description = null,
-				MaterialTypeId = 1,
-				MaterialType = _materialTypes.Single(mt => mt.Id == 1),
-				ShippingDate = DateTime.Today.AddDays(1),
-				ExpectedWeight = 12422,
-				ShippingMethod = "Båt",
-				Supplier = "Sunnanö"
-			};
-			yield return new Entities.Transaction
-			{
-				Id = "SF-87106",
-				Name = "Lollipop",
-				Description = null,
-				MaterialTypeId = 1,
-				MaterialType = _materialTypes.Single(mt => mt.Id == 1),
-				ShippingDate = DateTime.Today.AddDays(2),
-				ExpectedWeight = 15201,
-				ShippingMethod = "Båt",
-				Supplier = "Sunnanö"
-			};
-			yield return new Entities.Transaction
-			{
-				Id = "SF-87107",
-				Name = "Mandarin",
-				Description = null,
-				MaterialTypeId = 2,
-				MaterialType = _materialTypes.Single(mt => mt.Id == 2),
-				ShippingDate = DateTime.Today.AddDays(2),
-				ExpectedWeight = 17221,
-				ShippingMethod = "Båt",
-				Supplier = "Sunnanö"
-			};
-			yield return new Entities.Transaction
-			{
-				Id = "SF-87108",
-				Name = "Russian Velvet",
-				Description = null,
-				MaterialTypeId = 1,
-				MaterialType = _materialTypes.Single(mt => mt.Id == 1),
-				ShippingDate = DateTime.Today.AddDays(3),
-				ExpectedWeight = 8282,
-				ShippingMethod = "Båt",
-				Supplier = "Sunnanö"
-			};
-
-		}
-
-		#endregion FAKE DATA LAYER
 	}
 }

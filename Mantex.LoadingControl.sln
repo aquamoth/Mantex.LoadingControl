@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantex.ERP.Entities", "Mant
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantex.ERP.Services", "Mantex.ERP.Services\Mantex.ERP.Services.csproj", "{CBB47FED-BFD0-4ADB-AAC9-9C2F85A38146}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantex.ERP.Data", "Mantex.ERP.Data\Mantex.ERP.Data.csproj", "{31B915AF-F381-4554-8A7F-F39D060449F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantex.ERP.Data.EF", "Mantex.ERP.Data.EF\Mantex.ERP.Data.EF.csproj", "{27241437-6F7B-48E4-B387-6277E3E227D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantex.ERP.Data.Fake", "Mantex.ERP.Data.Fake\Mantex.ERP.Data.Fake.csproj", "{7005482B-DD54-44DE-AD67-6C86EBE2D6AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +45,18 @@ Global
 		{CBB47FED-BFD0-4ADB-AAC9-9C2F85A38146}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBB47FED-BFD0-4ADB-AAC9-9C2F85A38146}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBB47FED-BFD0-4ADB-AAC9-9C2F85A38146}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31B915AF-F381-4554-8A7F-F39D060449F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31B915AF-F381-4554-8A7F-F39D060449F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31B915AF-F381-4554-8A7F-F39D060449F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31B915AF-F381-4554-8A7F-F39D060449F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27241437-6F7B-48E4-B387-6277E3E227D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27241437-6F7B-48E4-B387-6277E3E227D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27241437-6F7B-48E4-B387-6277E3E227D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27241437-6F7B-48E4-B387-6277E3E227D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7005482B-DD54-44DE-AD67-6C86EBE2D6AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7005482B-DD54-44DE-AD67-6C86EBE2D6AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7005482B-DD54-44DE-AD67-6C86EBE2D6AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7005482B-DD54-44DE-AD67-6C86EBE2D6AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
