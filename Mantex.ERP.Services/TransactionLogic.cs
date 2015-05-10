@@ -18,7 +18,7 @@ namespace Mantex.ERP.Services
 
 		public IEnumerable<Entities.Transaction> GetCurrentTransactions()
 		{
-			return repository.Transactions.Where(t => !t.Batches.Any() || t.Batches.Any(b => !b.IsFinished));
+			return repository.Transactions.Where(t => !t.Batches.Any() || t.Batches.All(b => !b.IsTransactionDone));
 		}
 
 		public IEnumerable<Entities.MaterialType> AvailableMaterialTypes()
@@ -28,7 +28,7 @@ namespace Mantex.ERP.Services
 
 		public Entities.Transaction GetActiveTransaction()
 		{
-			return repository.Batches.Where(b => !b.EndTime.HasValue).Select(b => b.Transaction).SingleOrDefault();
+			return repository.Batches.Where(b => !b.StoppedAt.HasValue).Select(b => b.Transaction).SingleOrDefault();
 		}
 
 		public void StartTransaction(string transactionId, int materialTypeId)
@@ -49,10 +49,11 @@ namespace Mantex.ERP.Services
 			if (batch == null)
 				throw new ArgumentException(string.Format("Batch '{0}' finns inte.", Id));
 
-			if (batch.EndTime.HasValue)
+			if (batch.StoppedAt.HasValue)
 				throw new NotSupportedException(string.Format("Batch '{0}' har redan stoppats.", Id));
 
-			batch.EndTime = DateTime.Now;
+			batch.StoppedAt = DateTime.Now;
+			//TODO: batch.StoppedBy = ???;
 			repository.SaveChanges();
 		}
 
@@ -60,16 +61,17 @@ namespace Mantex.ERP.Services
 		{
 			var transaction = getTransaction(Id);
 			
-			var isFinished = transaction.Batches.Any(b => b.IsFinished);
+			var isFinished = transaction.Batches.Any(b => b.IsTransactionDone);
 			if (isFinished)
 				throw new NotSupportedException("Transaktionen har redan avslutats.");
-		
-			var batch = transaction.Batches.SingleOrDefault(b => !b.EndTime.HasValue);
+
+			var batch = transaction.Batches.SingleOrDefault(b => !b.StoppedAt.HasValue);
 			if (batch == null)
 				throw new NotSupportedException("Transaktionen måste startas innan den kan avslutas.");
 
-			batch.EndTime = DateTime.Now;
-			batch.IsFinished = true;
+			batch.StoppedAt = DateTime.Now;
+			//TODO: batch.StoppedBy = ???;
+			batch.IsTransactionDone = true;
 			repository.SaveChanges();
 		}
 
@@ -135,8 +137,9 @@ namespace Mantex.ERP.Services
 				Id = new Random().Next(1, 100000),
 				MaterialTypeId = materialTypeId,
 				MaterialType = materialType,
-				StartTime = DateTime.Now,
-				EndTime = null,
+				StartedAt = DateTime.Now,
+				//TODO: StartedBy = ???,
+				StoppedAt = null,
 				TransactionId = transactionId,
 				Transaction = transaction
 			};

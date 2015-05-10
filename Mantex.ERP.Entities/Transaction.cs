@@ -1,29 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Mantex.ERP.Entities
 {
-    public class Transaction
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+	//using System.Data.Entity.Spatial;
+
+    public partial class Transaction
     {
-		public Transaction()
-		{
-			Batches = new HashSet<Batch>();
-		}
+        public Transaction()
+        {
+            Batches = new HashSet<Batch>();
+        }
 
-		public string Id { get; set; }
-		public string Name { get; set; }
-		public DateTime ShippingDate { get; set; }
-		public string Supplier { get; set; }
-		public int ExpectedWeight { get; set; }
-		public string ShippingMethod { get; set; }
-		public string Description { get; set; }
+        [StringLength(256)]
+        public string Id { get; set; }
 
-		public int MaterialTypeId { get; set; }
-		public MaterialType MaterialType { get; set; }
+        [Required]
+        [StringLength(256)]
+        public string Name { get; set; }
 
-		public virtual ICollection<Batch> Batches { get; set; }
+        public int MaterialTypeId { get; set; }
+
+        public int? LoadingPositionId { get; set; }
+
+        public DateTime? ShippingDate { get; set; }
+
+        [StringLength(256)]
+        public string Supplier { get; set; }
+
+        public double? ExpectedWeight { get; set; }
+
+        [StringLength(256)]
+        public string ShippingMethod { get; set; }
+
+        [Column(TypeName = "ntext")]
+        public string Description { get; set; }
+
+        public virtual ICollection<Batch> Batches { get; set; }
+
+        public virtual LoadingPosition LoadingPosition { get; set; }
+
+        public virtual MaterialType MaterialType { get; set; }
     }
 }

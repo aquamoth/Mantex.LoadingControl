@@ -6,20 +6,23 @@ namespace Mantex.ERP.Entities
     using System.ComponentModel.DataAnnotations.Schema;
 	//using System.Data.Entity.Spatial;
 
-    public partial class MaterialType
+    public partial class LoadingPosition
     {
-        public MaterialType()
+        public LoadingPosition()
         {
             Batches = new HashSet<Batch>();
             Transactions = new HashSet<Transaction>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(256)]
         public string Name { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string Rfid { get; set; }
 
         public virtual ICollection<Batch> Batches { get; set; }
 

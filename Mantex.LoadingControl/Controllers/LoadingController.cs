@@ -26,7 +26,7 @@ namespace Mantex.LoadingControl.Controllers
 			var activeTransaction = transactionLogic.GetActiveTransaction();
 			var activeBatch = activeTransaction == null 
 				? null 
-				: activeTransaction.Batches.SingleOrDefault(b => !b.EndTime.HasValue);
+				: activeTransaction.Batches.SingleOrDefault(b => !b.StoppedAt.HasValue);
 
 			var model = new LoadingModels.IndexModel
 			{
@@ -129,7 +129,7 @@ namespace Mantex.LoadingControl.Controllers
 
 			var secondsOfProduction = transaction.Batches.Select(b =>
 				{
-					var seconds = (b.EndTime ?? DateTime.Now).Subtract(b.StartTime).TotalSeconds;
+					var seconds = (b.StoppedAt ?? DateTime.Now).Subtract(b.StartedAt).TotalSeconds;
 					return seconds;
 				}).Sum();
 

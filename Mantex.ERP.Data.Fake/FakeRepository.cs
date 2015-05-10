@@ -1,6 +1,8 @@
 ﻿using Mantex.ERP.Entities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,17 +13,17 @@ namespace Mantex.ERP.Data.Fake
     {
 		public FakeRepository()
 		{
-			this.MaterialTypes = new HashSet<MaterialType>(createMaterialTypes());
-			this.Transactions = new HashSet<Transaction>(createTransactions());
+			this.MaterialTypes = new TestDbSet<MaterialType>(createMaterialTypes());
+			this.Transactions = new TestDbSet<Transaction>(createTransactions());
 		}
 
-		public ISet<MaterialType> MaterialTypes { get; private set; }
-		public ISet<Transaction> Transactions { get; private set; }
-		public ISet<Batch> Batches 
+		public IDbSet<MaterialType> MaterialTypes { get; private set; }
+		public IDbSet<Transaction> Transactions { get; private set; }
+		public IDbSet<Batch> Batches 
 		{ 
 			get
 			{
-				return new HashSet<Batch>(this.Transactions.SelectMany(t=>t.Batches));
+				return new TestDbSet<Batch>(this.Transactions.SelectMany(t => t.Batches));
 			} 
 		}
 
