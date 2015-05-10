@@ -113,6 +113,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mantex.ERP.Entities\Mantex.ERP.Entities.csproj">
+      <Project>{610eda12-afe4-4f58-8e40-e05abe412377}</Project>
+      <Name>Mantex.ERP.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mantex.ERP.Services\Mantex.ERP.Services.csproj">
+      <Project>{cbb47fed-bfd0-4adb-aac9-9c2f85a38146}</Project>
+      <Name>Mantex.ERP.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mantex.LoadingControl\Mantex.LoadingControl.csproj">
       <Project>{D7D2854D-3F80-498A-8C74-FF45EAFC10AD}</Project>
       <Name>Mantex.LoadingControl</Name>

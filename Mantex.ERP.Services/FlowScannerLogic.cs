@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mantex.ERP.Logic
+namespace Mantex.ERP.Services
 {
 	public class FlowScannerLogic
 	{
-		public Data.MachineStatusEnum GetStatus()
+		public Entities.MachineStatusEnum GetStatus()
 		{
 			return FlowScannerFake.Default.Status;
 		}
 
 		public void StartMeasure(string transactionId, int materialTypeId)
 		{
-			if (FlowScannerFake.Default.Status != Mantex.ERP.Data.MachineStatusEnum.Working)
+			if (FlowScannerFake.Default.Status != Mantex.ERP.Entities.MachineStatusEnum.Working)
 				throw new NotSupportedException("FlowScanner kan inte mäta material just nu.");
 
 			FlowScannerFake.Default.StartMeasure(transactionId, materialTypeId);
@@ -32,18 +32,18 @@ namespace Mantex.ERP.Logic
 	class FlowScannerFake
 	{
 
-		public Data.MachineStatusEnum Status { get; set; }
+		public Entities.MachineStatusEnum Status { get; set; }
 		public void StartMeasure(string transactionId, int materialTypeId)
 		{
 			_timer.Change(5000, 5000);
 			this.TransactionId = transactionId;
 			this.MaterialTypeId = materialTypeId;
-			this.Status = Data.MachineStatusEnum.WaitingForEmptyBelt;
+			this.Status = Entities.MachineStatusEnum.WaitingForEmptyBelt;
 		}
 		public void StopMeasure()
 		{
 			this.TransactionId = null;
-			Status = Mantex.ERP.Data.MachineStatusEnum.Working;
+			Status = Mantex.ERP.Entities.MachineStatusEnum.Working;
 		}
 		
 		public string TransactionId { get; set; }
@@ -53,16 +53,16 @@ namespace Mantex.ERP.Logic
 
 		public FlowScannerFake()
 		{
-			Status = Data.MachineStatusEnum.Offline;
+			Status = Entities.MachineStatusEnum.Offline;
 			_timer = new System.Threading.Timer(new System.Threading.TimerCallback((obj) => {
-				if (Status < Data.MachineStatusEnum.Working)
+				if (Status < Entities.MachineStatusEnum.Working)
 					Status++;
-				else if(Status == Data.MachineStatusEnum.WaitingForEmptyBelt)
+				else if (Status == Entities.MachineStatusEnum.WaitingForEmptyBelt)
 				{
 					if (TransactionId == null)
-						Status = Data.MachineStatusEnum.Working;
+						Status = Entities.MachineStatusEnum.Working;
 					else
-						Status = Data.MachineStatusEnum.Measuring;
+						Status = Entities.MachineStatusEnum.Measuring;
 				}
 			}), null, 5000, 5000);
 		}

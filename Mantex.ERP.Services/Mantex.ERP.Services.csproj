@@ -7,8 +7,8 @@
     <ProjectGuid>{CBB47FED-BFD0-4ADB-AAC9-9C2F85A38146}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mantex.ERP.Logic</RootNamespace>
-    <AssemblyName>Mantex.ERP.Logic</AssemblyName>
+    <RootNamespace>Mantex.ERP.Services</RootNamespace>
+    <AssemblyName>Mantex.ERP.Services</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,9 +44,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mantex.ERP.Data\Mantex.ERP.Data.csproj">
+    <ProjectReference Include="..\Mantex.ERP.Entities\Mantex.ERP.Entities.csproj">
       <Project>{610eda12-afe4-4f58-8e40-e05abe412377}</Project>
-      <Name>Mantex.ERP.Data</Name>
+      <Name>Mantex.ERP.Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

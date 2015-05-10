@@ -1,4 +1,4 @@
-﻿using Mantex.ERP.Data;
+﻿using Mantex.ERP.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

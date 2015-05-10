@@ -1,4 +1,4 @@
-﻿using Mantex.ERP.Logic;
+﻿using Mantex.ERP.Services;
 using Mantex.LoadingControl.Helpers;
 using Mantex.LoadingControl.Models;
 using System;
@@ -34,7 +34,7 @@ namespace Mantex.LoadingControl.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[SetTempDataModelState]
-		public ActionResult NewTransaction(Mantex.ERP.Data.Transaction model)
+		public ActionResult NewTransaction(Mantex.ERP.Entities.Transaction model)
 		{
 			if (ModelState.IsValid)
 			{
@@ -69,7 +69,7 @@ namespace Mantex.LoadingControl.Controllers
 
 					var flowScannerLogic = new FlowScannerLogic();
 					var machineStatus = flowScannerLogic.GetStatus();
-					if (machineStatus == Mantex.ERP.Data.MachineStatusEnum.Working)
+					if (machineStatus == Mantex.ERP.Entities.MachineStatusEnum.Working)
 					{
 						flowScannerLogic.StartMeasure(model.SelectedTransaction, model.SelectedMaterialType);
 					}

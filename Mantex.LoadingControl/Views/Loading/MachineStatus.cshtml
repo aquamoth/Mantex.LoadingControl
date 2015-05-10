@@ -1,6 +1,6 @@
-﻿@model Mantex.ERP.Data.MachineStatusEnum
+﻿@model Mantex.ERP.Entities.MachineStatusEnum
 @{
-    var panelClass = Model < Mantex.ERP.Data.MachineStatusEnum.Working
+    var panelClass = Model < Mantex.ERP.Entities.MachineStatusEnum.Working
         ? "text-warning" : "text-success";
 }
 <div class="panel-body text-center @panelClass">
@@ -12,11 +12,11 @@
     {
         switch (Model)
         {
-            case Mantex.ERP.Data.MachineStatusEnum.Offline: return "FlowScanner är offline.";
-            case Mantex.ERP.Data.MachineStatusEnum.Online: return "FlowScanner är online men inte startad.";
-            case Mantex.ERP.Data.MachineStatusEnum.Working: return "FlowScanner väntar på transaktion.";
-            case Mantex.ERP.Data.MachineStatusEnum.WaitingForEmptyBelt: return "Vänta på klartecken för lastning.";
-            case Mantex.ERP.Data.MachineStatusEnum.Measuring: return "Klart att lasta material på bandet.";
+            case Mantex.ERP.Entities.MachineStatusEnum.Offline: return "FlowScanner är offline.";
+            case Mantex.ERP.Entities.MachineStatusEnum.Online: return "FlowScanner är online men inte startad.";
+            case Mantex.ERP.Entities.MachineStatusEnum.Working: return "FlowScanner väntar på transaktion.";
+            case Mantex.ERP.Entities.MachineStatusEnum.WaitingForEmptyBelt: return "Vänta på klartecken för lastning.";
+            case Mantex.ERP.Entities.MachineStatusEnum.Measuring: return "Klart att lasta material på bandet.";
             default:
                 throw new NotImplementedException();
         }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mantex.ERP.Data
+namespace Mantex.ERP.Entities
 {
 	public class Batch
 	{

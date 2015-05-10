@@ -4,21 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mantex.ERP.Logic
+namespace Mantex.ERP.Services
 {
     public class TransactionLogic
     {
-		public IEnumerable<Data.Transaction> GetCurrentTransactions()
+		public IEnumerable<Entities.Transaction> GetCurrentTransactions()
 		{
 			return _currentTransactions;
 		}
 
-		public IEnumerable<Data.MaterialType> AvailableMaterialTypes()
+		public IEnumerable<Entities.MaterialType> AvailableMaterialTypes()
 		{
 			return _materialTypes;
 		}
 
-		public Data.Transaction GetActiveTransaction()
+		public Entities.Transaction GetActiveTransaction()
 		{
 			return _activeTransaction;
 		}
@@ -70,14 +70,14 @@ namespace Mantex.ERP.Logic
 			_currentTransactions.Remove(transaction);
 		}
 
-		public void Create(Data.Transaction model)
+		public void Create(Entities.Transaction model)
 		{
 			var transactionId = "MX-" + model.Id;
 			if (_currentTransactions.Any(t => t.Id == transactionId))
 				throw new ArgumentException("Transaktionsnumret finns redan.");
 			var materialType = getMaterialType(model.MaterialTypeId);
 
-			var transaction = new Data.Transaction
+			var transaction = new Entities.Transaction
 			{
 				Id = transactionId,
 				Name = model.Name,
@@ -96,7 +96,7 @@ namespace Mantex.ERP.Logic
 
 
 
-		private Data.Transaction getTransaction(string transactionId)
+		private Entities.Transaction getTransaction(string transactionId)
 		{
 			var transactions = this.GetCurrentTransactions();
 			var transaction = transactions.SingleOrDefault(t => t.Id == transactionId);
@@ -105,7 +105,7 @@ namespace Mantex.ERP.Logic
 			return transaction;
 		}
 
-		private Data.MaterialType getMaterialType(int materialTypeId)
+		private Entities.MaterialType getMaterialType(int materialTypeId)
 		{
 			var materialTypes = this.AvailableMaterialTypes();
 			var materialType = materialTypes.FirstOrDefault(mt => mt.Id == materialTypeId);
@@ -114,7 +114,7 @@ namespace Mantex.ERP.Logic
 			return materialType;
 		}
 
-		private Data.Batch getBatch(int id)
+		private Entities.Batch getBatch(int id)
 		{
 			var transactions = this.GetCurrentTransactions();
 			var batches = transactions.SelectMany(t => t.Batches);
@@ -122,11 +122,11 @@ namespace Mantex.ERP.Logic
 			return batch;
 		}
 
-		private void addNewBatch(Data.Transaction transaction, Data.MaterialType materialType)
+		private void addNewBatch(Entities.Transaction transaction, Entities.MaterialType materialType)
 		{
 			string transactionId = transaction.Id;
 			int materialTypeId = materialType.Id;
-			var batch = new Data.Batch
+			var batch = new Entities.Batch
 			{
 				Id = new Random().Next(1, 100000),
 				MaterialTypeId = materialTypeId,
@@ -141,9 +141,9 @@ namespace Mantex.ERP.Logic
 
 		#region FAKE DATA LAYER
 
-		static readonly List<Data.MaterialType> _materialTypes;
-		static readonly List<Data.Transaction> _currentTransactions;
-		static Data.Transaction _activeTransaction = null;
+		static readonly List<Entities.MaterialType> _materialTypes;
+		static readonly List<Entities.Transaction> _currentTransactions;
+		static Entities.Transaction _activeTransaction = null;
 
 		static TransactionLogic()
 		{
@@ -151,17 +151,17 @@ namespace Mantex.ERP.Logic
 			_currentTransactions = createTransactions().ToList();
 		}
 
-		static IEnumerable<Data.MaterialType> createMaterialTypes()
+		static IEnumerable<Entities.MaterialType> createMaterialTypes()
 		{
-			yield return new Data.MaterialType { Id = 1, Name = "Gran" };
-			yield return new Data.MaterialType { Id = 2, Name = "Grot" };
-			yield return new Data.MaterialType { Id = 3, Name = "Returflis" };
-			yield return new Data.MaterialType { Id = 4, Name = "Returpapper" };
+			yield return new Entities.MaterialType { Id = 1, Name = "Gran" };
+			yield return new Entities.MaterialType { Id = 2, Name = "Grot" };
+			yield return new Entities.MaterialType { Id = 3, Name = "Returflis" };
+			yield return new Entities.MaterialType { Id = 4, Name = "Returpapper" };
 		}
 
-		static IEnumerable<Data.Transaction> createTransactions()
+		static IEnumerable<Entities.Transaction> createTransactions()
 		{
-			yield return new Data.Transaction
+			yield return new Entities.Transaction
 			{
 				Id = "SF-87104",
 				Name = "Everst #27",
@@ -173,7 +173,7 @@ namespace Mantex.ERP.Logic
 				ShippingMethod = "Båt",
 				Supplier = "Sunnanö"
 			};
-			yield return new Data.Transaction
+			yield return new Entities.Transaction
 			{
 				Id = "SF-87105",
 				Name = "Alfred",
@@ -185,7 +185,7 @@ namespace Mantex.ERP.Logic
 				ShippingMethod = "Båt",
 				Supplier = "Sunnanö"
 			};
-			yield return new Data.Transaction
+			yield return new Entities.Transaction
 			{
 				Id = "SF-87106",
 				Name = "Lollipop",
@@ -197,7 +197,7 @@ namespace Mantex.ERP.Logic
 				ShippingMethod = "Båt",
 				Supplier = "Sunnanö"
 			};
-			yield return new Data.Transaction
+			yield return new Entities.Transaction
 			{
 				Id = "SF-87107",
 				Name = "Mandarin",
@@ -209,7 +209,7 @@ namespace Mantex.ERP.Logic
 				ShippingMethod = "Båt",
 				Supplier = "Sunnanö"
 			};
-			yield return new Data.Transaction
+			yield return new Entities.Transaction
 			{
 				Id = "SF-87108",
 				Name = "Russian Velvet",

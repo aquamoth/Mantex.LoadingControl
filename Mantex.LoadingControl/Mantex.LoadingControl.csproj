@@ -240,13 +240,13 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mantex.ERP.Data\Mantex.ERP.Data.csproj">
+    <ProjectReference Include="..\Mantex.ERP.Entities\Mantex.ERP.Entities.csproj">
       <Project>{610eda12-afe4-4f58-8e40-e05abe412377}</Project>
-      <Name>Mantex.ERP.Data</Name>
+      <Name>Mantex.ERP.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mantex.ERP.Logic\Mantex.ERP.Logic.csproj">
+    <ProjectReference Include="..\Mantex.ERP.Services\Mantex.ERP.Services.csproj">
       <Project>{cbb47fed-bfd0-4adb-aac9-9c2f85a38146}</Project>
-      <Name>Mantex.ERP.Logic</Name>
+      <Name>Mantex.ERP.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mantex.LDAP\Mantex.LDAP.csproj">
       <Project>{d0d3d8c4-a0cd-414c-841d-0c2a0fe292b5}</Project>

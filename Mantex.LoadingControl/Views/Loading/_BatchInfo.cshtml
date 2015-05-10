@@ -1,4 +1,4 @@
-﻿@model Mantex.ERP.Data.Transaction
+﻿@model Mantex.ERP.Entities.Transaction
 @{
     var activeBatch = Model.Batches.SingleOrDefault(b => b.EndTime == null);
 }
@@ -55,7 +55,7 @@ else
 }
 
 @functions{
-    int elapsedTimeFor(Mantex.ERP.Data.Batch activeBatch)
+    int elapsedTimeFor(Mantex.ERP.Entities.Batch activeBatch)
     {
         var endTime = activeBatch.EndTime ?? DateTime.Now;
         var timeSpan = endTime.Subtract(activeBatch.StartTime);
