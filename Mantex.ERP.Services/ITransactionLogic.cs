@@ -1,15 +1,19 @@
 ﻿using System;
+using Mantex.ERP.Entities;
+
 namespace Mantex.ERP.Services
 {
 	public interface ITransactionLogic
 	{
-		System.Collections.Generic.IEnumerable<Mantex.ERP.Entities.MaterialType> AvailableMaterialTypes();
-		void Create(Mantex.ERP.Entities.Transaction model);
+		void AddObservation(int batchId, string text);
+		System.Collections.Generic.IEnumerable<MaterialType> AvailableMaterialTypes();
+		void Create(Transaction model);
 		void FinishTransaction(string Id);
-		Mantex.ERP.Entities.Transaction GetActiveTransaction();
-		System.Collections.Generic.IEnumerable<Mantex.ERP.Entities.Transaction> GetCurrentTransactions();
+		Transaction GetActiveTransaction();
+		Entities.Batch GetBatch(int id);
+		System.Collections.Generic.IEnumerable<Transaction> GetCurrentTransactions();
 		void StartTransaction(string transactionId, int materialTypeId);
-		Mantex.ERP.Entities.Batch StopBatch(int Id);
-		Mantex.ERP.Entities.Transaction GetTransaction(string id);
+		Batch StopBatch(int Id);
+		Transaction GetTransaction(string id);
 	}
 }

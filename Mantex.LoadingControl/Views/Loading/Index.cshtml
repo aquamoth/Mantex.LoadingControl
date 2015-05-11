@@ -5,10 +5,19 @@
 }
 <br />
 <div class="row">
+    @Html.Partial("_ValidationSummary")
+
     <div class="col-sm-6 col-md-5">
         @Html.Partial("_ControlPanel", Model)
     </div>
     <div id="BatchStatusContainer" class="col-sm-6 col-md-7">
         @Html.Action("BatchStatus", new { id = selectedTransactionId })
     </div>
+    <div id="ObservationsContainer" class="col-sm-12">
+        @if (selectedTransactionId != null)
+        {
+            @Html.Action("Observations", new { id = selectedTransactionId })
+        }
+    </div>
 </div>
+

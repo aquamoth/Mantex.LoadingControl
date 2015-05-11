@@ -28,6 +28,13 @@ namespace Mantex.ERP.Data.Fake
 				return new TestDbSet<Batch>(this.Transactions.SelectMany(t => t.Batches));
 			} 
 		}
+		public IDbSet<Observation> Observations
+		{
+			get
+			{
+				return new TestDbSet<Observation>(this.Transactions.SelectMany(t => t.Batches.SelectMany(b=>b.Observations)));
+			}
+		}
 
 		public int SaveChanges()
 		{

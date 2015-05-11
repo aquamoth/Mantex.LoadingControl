@@ -11,7 +11,8 @@ namespace Mantex.ERP.Entities
         public Batch()
         {
             Sessions = new HashSet<Session>();
-        }
+			Observations = new HashSet<Observation>();
+		}
 
         public int Id { get; set; }
 
@@ -46,5 +47,7 @@ namespace Mantex.ERP.Entities
         public virtual Transaction Transaction { get; set; }
 
         public virtual ICollection<Session> Sessions { get; set; }
-    }
+	
+		public virtual ICollection<Observation> Observations { get; set; }
+	}
 }

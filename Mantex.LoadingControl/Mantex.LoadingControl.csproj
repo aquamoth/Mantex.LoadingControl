@@ -241,6 +241,7 @@
     <Content Include="Views\Shared\_ValidationSummary.cshtml" />
     <Content Include="Views\Account\LogOn.cshtml" />
     <Content Include="Views\Loading\TransactionInfo.cshtml" />
+    <Content Include="Views\Loading\Observations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

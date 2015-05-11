@@ -24,9 +24,15 @@ namespace Mantex.ERP.Data.EF
 		public virtual IDbSet<Measurement> Measurements { get; set; }
 		public virtual IDbSet<Session> Sessions { get; set; }
 		public virtual IDbSet<Transaction> Transactions { get; set; }
+		public virtual IDbSet<Observation> Observations { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
+			modelBuilder.Entity<Batch>()
+				.HasMany(e => e.Observations)
+				.WithRequired(e => e.Batch)
+				.WillCascadeOnDelete(false);
+
 			modelBuilder.Entity<Batch>()
 				.HasMany(e => e.Sessions)
 				.WithRequired(e => e.Batch)

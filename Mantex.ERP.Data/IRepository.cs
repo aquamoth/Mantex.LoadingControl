@@ -15,6 +15,7 @@ namespace Mantex.ERP.Data
 		IDbSet<LoadingPosition> LoadingPositions { get; }
 		IDbSet<MaterialType> MaterialTypes { get; }
 		IDbSet<Transaction> Transactions { get; }
+		IDbSet<Observation> Observations { get; }
 		int SaveChanges();
 	}
 }

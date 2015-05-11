@@ -168,5 +168,41 @@ namespace Mantex.LoadingControl.Controllers
 			var model = flowScannerLogic.GetStatus();
 			return PartialView("MachineStatus", model);
 		}
+
+
+		[HttpGet]
+		public ActionResult Observations(string id)
+		{
+			var transaction = transactionLogic.GetTransaction(id);
+			var activeBatch = transaction == null ? null : transaction.Batches.Where(b => !b.StoppedAt.HasValue).SingleOrDefault();
+			var observations = transaction == null ? null : transaction.Batches.SelectMany(b => b.Observations).ToArray();
+			var model = new LoadingModels.ObservationsModel
+			{
+				SelectedBatchId = activeBatch != null ? (int?)activeBatch.Id : null,
+				Observations = observations
+			};
+			return PartialView(model);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[SetTempDataModelState]
+		public ActionResult Observations(LoadingModels.ObservationPostModel model)
+		{
+			var batch = model.SelectedBatchId.HasValue ? transactionLogic.GetBatch(model.SelectedBatchId.Value) : null;
+			var transactionId = batch != null ? batch.TransactionId : null;
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					transactionLogic.AddObservation(model.SelectedBatchId.Value, model.Text);
+				}
+				catch (Exception ex)
+				{
+					ModelState.AddModelError("", ex.Message);
+				}
+			}
+			return RedirectToAction("Index", new { id = transactionId });
+		}
 	}
 }

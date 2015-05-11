@@ -4,10 +4,9 @@
     $(document).ready(function () {
 
         $('.transaction-table').on('click', ':radio', function () {
-
             var id = $(this).closest('tr').data('id');
-            console.log('clicked: ' + id);
             $('#BatchStatusContainer').load('/Loading/BatchStatus/', { id: id });
+            $('#ObservationsContainer').load('/Loading/Observations/' + id); //Forces a Http GET by NOT specifying a request object
         });
         
     });

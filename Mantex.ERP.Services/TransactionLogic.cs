@@ -38,7 +38,7 @@ namespace Mantex.ERP.Services
 		public Entities.Transaction GetTransaction(string id)
 		{
 			return repository.Transactions
-				.Include(t => t.Batches)
+				.Include(t => t.Batches.Select(b => b.Observations))
 				.Where(t => t.Id == id)
 				.SingleOrDefault();
 		}
@@ -60,7 +60,7 @@ namespace Mantex.ERP.Services
 		public Mantex.ERP.Entities.Batch StopBatch(int Id)
 		{
 #warning Not thread safe!
-			var batch = getBatch(Id);
+			var batch = GetBatch(Id);
 			if (batch == null)
 				throw new ArgumentException(string.Format("Batch '{0}' finns inte.", Id));
 
@@ -114,7 +114,26 @@ namespace Mantex.ERP.Services
 			repository.SaveChanges();
 		}
 
+		public Entities.Batch GetBatch(int id)
+		{
+			return repository.Batches.Where(b => b.Id == id).Single();
+		}
 
+		public void AddObservation(int batchId, string text)
+		{
+			var batch = GetBatch(batchId);
+			var observation = new Entities.Observation
+			{
+				BatchId = batchId,
+				Batch = batch,
+				ObservedAt = DateTime.Now,
+				RegisteredAt = DateTime.Now,
+				RegisteredBy = "?",
+				Text = text
+			};
+			batch.Observations.Add(observation);
+			repository.SaveChanges();
+		}
 
 
 
@@ -134,14 +153,6 @@ namespace Mantex.ERP.Services
 			if (materialType == null)
 				throw new ArgumentException("Materialtypen finns inte.");
 			return materialType;
-		}
-
-		private Entities.Batch getBatch(int id)
-		{
-			var transactions = this.GetCurrentTransactions();
-			var batches = transactions.SelectMany(t => t.Batches);
-			var batch = batches.SingleOrDefault(b => b.Id == id);
-			return batch;
 		}
 
 		private void addNewBatch(Entities.Transaction transaction, Entities.MaterialType materialType, Entities.LoadingPosition loadingPosition)

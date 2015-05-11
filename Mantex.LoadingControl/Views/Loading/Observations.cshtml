@@ -1,0 +1,48 @@
+﻿@model Mantex.LoadingControl.Models.LoadingModels.ObservationsModel
+<div class="col-sm-12">
+    <label>Observationer</label>
+    @using (Html.BeginForm("Observations", "Loading"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.SelectedBatchId)
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tidpunkt</th>
+                    <th>Batch</th>
+                    <th>Användare</th>
+                    <th>Kommentar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.SelectedBatchId.HasValue)
+                {
+                    <tr>
+                        <td>@string.Format("{0:yyyy-MM-dd HH:mm}", DateTime.Now)</td>
+                        <td>?</td>
+                        <td>@User.Identity.Name</td>
+                        <td>
+                            @Html.TextBoxFor(m => m.Text)
+                            @Html.ValidationMessageFor(m => m.Text)
+                            <input type="submit" value="Spara" />
+                        </td>
+                    </tr>
+                }
+                @if (Model.Observations != null)
+                {
+                    foreach (var observation in Model.Observations)
+                    {
+                        //var batchIndex = Model.Batches.OrderBy(b => b.StartedAt).ToList().IndexOf(activeBatch) + 1;
+                        <tr>
+                            <td>@string.Format("{0:yyyy-MM-dd HH:mm}", observation.ObservedAt)</td>
+                            <td>@observation.BatchId</td>
+                            <td>@observation.RegisteredBy</td>
+                            <td>@observation.Text</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+</div>

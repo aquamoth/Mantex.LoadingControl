@@ -22,5 +22,19 @@ namespace Mantex.LoadingControl.Models
 			public string SelectedTransaction { get; set; }
 			public int SelectedMaterialType { get; set; }
 		}
+
+		public class ObservationsModel : ObservationPostModel
+		{
+			public IEnumerable<Observation> Observations { get; set; }
+		}
+
+		public class ObservationPostModel
+		{
+			[Required(ErrorMessage = "Det finns ingen pågående transaktion")]
+			public int? SelectedBatchId { get; set; }
+
+			[Required(ErrorMessage = "Fyll i ett meddelande.")]
+			public string Text { get; set; }
+		}
 	}
 }
