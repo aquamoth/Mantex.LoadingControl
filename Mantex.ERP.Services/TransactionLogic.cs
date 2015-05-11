@@ -43,7 +43,7 @@ namespace Mantex.ERP.Services
 				.SingleOrDefault();
 		}
 
-		public void StartTransaction(string transactionId, int materialTypeId)
+		public void StartTransaction(string transactionId, int materialTypeId, string username)
 		{
 			var activeTransaction = GetActiveTransaction();
 			if (activeTransaction != null)
@@ -53,11 +53,11 @@ namespace Mantex.ERP.Services
 			var materialType = getMaterialType(materialTypeId);
 			var loadionPosition = repository.LoadingPositions.Single();
 
-			addNewBatch(transaction, materialType, loadionPosition);
+			addNewBatch(transaction, materialType, loadionPosition, username);
 			repository.SaveChanges();
 		}
 
-		public Mantex.ERP.Entities.Batch StopBatch(int Id)
+		public Mantex.ERP.Entities.Batch StopBatch(int Id, string username)
 		{
 #warning Not thread safe!
 			var batch = GetBatch(Id);
@@ -68,12 +68,12 @@ namespace Mantex.ERP.Services
 				throw new NotSupportedException(string.Format("Batch '{0}' har redan stoppats.", Id));
 
 			batch.StoppedAt = DateTime.Now;
-			//TODO: batch.StoppedBy = ???;
+			batch.StoppedBy = username;
 			repository.SaveChanges();
 			return batch;
 		}
 
-		public void FinishTransaction(string Id)
+		public void FinishTransaction(string Id, string username)
 		{
 			var transaction = getTransaction(Id);
 			
@@ -86,7 +86,7 @@ namespace Mantex.ERP.Services
 				throw new NotSupportedException("Transaktionen måste startas innan den kan avslutas.");
 
 			batch.StoppedAt = DateTime.Now;
-			//TODO: batch.StoppedBy = ???;
+			batch.StoppedBy = username;
 			batch.IsTransactionDone = true;
 			repository.SaveChanges();
 		}
@@ -119,7 +119,7 @@ namespace Mantex.ERP.Services
 			return repository.Batches.Where(b => b.Id == id).Single();
 		}
 
-		public void AddObservation(int batchId, string text)
+		public void AddObservation(int batchId, string text, string username)
 		{
 			var batch = GetBatch(batchId);
 			var observation = new Entities.Observation
@@ -128,7 +128,7 @@ namespace Mantex.ERP.Services
 				Batch = batch,
 				ObservedAt = DateTime.Now,
 				RegisteredAt = DateTime.Now,
-				RegisteredBy = "?",
+				RegisteredBy = username,
 				Text = text
 			};
 			batch.Observations.Add(observation);
@@ -155,7 +155,7 @@ namespace Mantex.ERP.Services
 			return materialType;
 		}
 
-		private void addNewBatch(Entities.Transaction transaction, Entities.MaterialType materialType, Entities.LoadingPosition loadingPosition)
+		private void addNewBatch(Entities.Transaction transaction, Entities.MaterialType materialType, Entities.LoadingPosition loadingPosition, string username)
 		{
 			string transactionId = transaction.Id;
 			int materialTypeId = materialType.Id;
@@ -166,8 +166,9 @@ namespace Mantex.ERP.Services
 				MaterialType = materialType,
 				LoadingPosition = loadingPosition,
 				StartedAt = DateTime.Now,
-				//TODO: StartedBy = ???,
+				StartedBy = username,
 				StoppedAt = null,
+				StoppedBy = null,
 				TransactionId = transactionId,
 				Transaction = transaction
 			};

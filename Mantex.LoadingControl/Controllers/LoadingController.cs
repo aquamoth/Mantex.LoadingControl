@@ -89,7 +89,7 @@ namespace Mantex.LoadingControl.Controllers
 				{
 #warning Starting a batch must be transactional
 
-					transactionLogic.StartTransaction(model.SelectedTransaction, model.SelectedMaterialType);
+					transactionLogic.StartTransaction(model.SelectedTransaction, model.SelectedMaterialType, User.Identity.Name);
 
 					var flowScannerLogic = new FlowScannerLogic();
 					var machineStatus = flowScannerLogic.GetStatus();
@@ -115,7 +115,7 @@ namespace Mantex.LoadingControl.Controllers
 			string transactionId = null;
 			try
 			{
-				var batch = transactionLogic.StopBatch(batchId);
+				var batch = transactionLogic.StopBatch(batchId, User.Identity.Name);
 				transactionId = batch.TransactionId;
 				new FlowScannerLogic().StopMeasure();
 			}
@@ -134,7 +134,7 @@ namespace Mantex.LoadingControl.Controllers
 #warning Finishing a batch must be transactional
 			try
 			{
-				transactionLogic.FinishTransaction(Id);
+				transactionLogic.FinishTransaction(Id, User.Identity.Name);
 				new FlowScannerLogic().StopMeasure();
 			}
 			catch (Exception ex)
@@ -195,7 +195,7 @@ namespace Mantex.LoadingControl.Controllers
 			{
 				try
 				{
-					transactionLogic.AddObservation(model.SelectedBatchId.Value, model.Text);
+					transactionLogic.AddObservation(model.SelectedBatchId.Value, model.Text, User.Identity.Name);
 				}
 				catch (Exception ex)
 				{

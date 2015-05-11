@@ -41,8 +41,7 @@ namespace Mantex.LoadingControl.Controllers
 		public ActionResult LogOff()
 		{
 			FormsAuthentication.SignOut();
-			FormsAuthentication.RedirectToLoginPage();
-			return new EmptyResult();
+			return RedirectToAction("Index", "Home");
 		}
 	}
 }
