@@ -1,7 +1,7 @@
 ﻿@model string
 @{
     Html.RequireScript("~/Scripts/Loading/SmallTransactionTable.js");
-    var transactions = (IEnumerable<Mantex.ERP.Entities.Transaction>)ViewBag.Transactions;
+    var transactions = ((IEnumerable<Mantex.ERP.Entities.Transaction>)ViewBag.Transactions).OrderBy(t=>t.ShippingDate);
     var hasActiveTransaction = transactions.Any(t => t.Batches.Any(b => !b.StoppedAt.HasValue));
     var activeTransactionId = transactions.Where(t => t.Batches.Any(b => !b.StoppedAt.HasValue)).Select(t => t.Id).SingleOrDefault();
 }
@@ -17,7 +17,7 @@
                         @Html.RadioButtonFor(m => m, transaction.Id, attributes)
                     }
                 </td>
-                <td>@SuffixOf(transaction.Id)</td>
+                <td>@string.Format("{0:dd MMM}", transaction.ShippingDate)</td>
                 <td>@transaction.ShippingMethod</td>
                 <td>@transaction.Supplier</td>
                 <td>@transaction.Name</td>
