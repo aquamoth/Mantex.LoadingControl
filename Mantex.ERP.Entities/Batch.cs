@@ -49,5 +49,16 @@ namespace Mantex.ERP.Entities
         public virtual ICollection<Session> Sessions { get; set; }
 	
 		public virtual ICollection<Observation> Observations { get; set; }
+
+
+		public int ElapstedTime
+		{
+			get
+			{
+				var endTime = this.StoppedAt ?? DateTime.Now;
+				var timeSpan = endTime.Subtract(this.StartedAt);
+				return (int)timeSpan.TotalSeconds;
+			}
+		}
 	}
 }

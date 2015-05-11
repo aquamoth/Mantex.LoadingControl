@@ -37,13 +37,9 @@
                         foreach (var observation in Model.Observations)
                         {
                             var transaction = observation.Batch.Transaction;
-                            var batchIndex = transaction.Batches
-                                .OrderBy(b => b.StartedAt)
-                                .ToList()
-                                .IndexOf(observation.Batch) + 1;
                             <tr>
                                 <td>@string.Format("{0:yyyy-MM-dd HH:mm}", observation.ObservedAt)</td>
-                                <td>@transaction.Id-@batchIndex</td>
+                                <td>@transaction.Id-@transaction.BatchNumberOf(observation.Batch)</td>
                                 <td>@observation.RegisteredBy</td>
                                 <td>@observation.Text</td>
                             </tr>

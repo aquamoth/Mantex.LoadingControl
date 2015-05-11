@@ -1,21 +1,16 @@
 ﻿@model Mantex.ERP.Entities.Transaction
 @{
-    var activeBatch = Model.Batches.SingleOrDefault(b => !b.StoppedAt.HasValue);
-    if (activeBatch == null) 
-    {
-        activeBatch = Model.Batches.OrderByDescending(b => b.StartedAt).FirstOrDefault();
-    }
+    var activeBatch = Model.ActiveBatch ?? Model.LastBatch;
 }
 <h3>Produktion</h3>
 @if (activeBatch != null)
 {
-    var batchIndex = Model.Batches.OrderBy(b => b.StartedAt).ToList().IndexOf(activeBatch) + 1;
-    var batchTime = elapsedTimeFor(activeBatch);
-    var productionTime = Model.Batches.Select(b => elapsedTimeFor(b)).Sum();
+    var batchTime = activeBatch.ElapstedTime;
+    var productionTime = Model.Batches.Select(b => b.ElapstedTime).Sum();
     
     <div class="row">
         <div class="col-xs-6"><strong>Omgång</strong></div>
-        <div class="col-xs-6">@batchIndex</div>
+        <div class="col-xs-6">@Model.BatchNumberOf(activeBatch)</div>
     </div>
     <div class="row">
         <div class="col-xs-6"><strong>Material</strong></div>
@@ -56,13 +51,4 @@ else
         <div class="col-xs-6"><strong>Total tid</strong></div>
         <div class="col-xs-6">&nbsp;</div>
     </div>
-}
-
-@functions{
-    int elapsedTimeFor(Mantex.ERP.Entities.Batch activeBatch)
-    {
-        var endTime = activeBatch.StoppedAt ?? DateTime.Now;
-        var timeSpan = endTime.Subtract(activeBatch.StartedAt);
-        return (int)timeSpan.TotalSeconds;
-    }
 }

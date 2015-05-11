@@ -1,7 +1,7 @@
 ﻿@model Mantex.ERP.Entities.Transaction
 @{
-    var transaction = Model;//.ActiveBatch == null ? null : Model.ActiveBatch.Transaction;
-    var activeBatch = transaction == null ? null : transaction.Batches.Where(b => !b.StoppedAt.HasValue).SingleOrDefault();
+    var transaction = Model;
+    var activeBatch = transaction == null ? null : transaction.ActiveBatch;
     var headline = transaction == null
         ? "(ingen pågående transaktion)"
         : string.Format("{3} - {0} {1} {2}",

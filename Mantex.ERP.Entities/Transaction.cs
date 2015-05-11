@@ -4,6 +4,7 @@ namespace Mantex.ERP.Entities
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+	using System.Linq;
 	//using System.Data.Entity.Spatial;
 
     public partial class Transaction
@@ -42,5 +43,30 @@ namespace Mantex.ERP.Entities
         public virtual LoadingPosition LoadingPosition { get; set; }
 
         public virtual MaterialType MaterialType { get; set; }
-    }
+
+
+		public Batch LastBatch
+		{
+			get
+			{
+				return this.Batches.OrderByDescending(b => b.StartedAt).FirstOrDefault();
+			}
+		}
+
+		public Batch ActiveBatch
+		{
+			get
+			{
+				return this.Batches.SingleOrDefault(b => !b.StoppedAt.HasValue);
+			}
+		}
+
+		public int BatchNumberOf(Batch batch)
+		{
+			return this.Batches
+				.OrderBy(b => b.StartedAt)
+				.ToList()
+				.IndexOf(batch) + 1;
+		}
+	}
 }
