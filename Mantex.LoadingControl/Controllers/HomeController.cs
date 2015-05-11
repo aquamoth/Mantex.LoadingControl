@@ -14,28 +14,55 @@ namespace Mantex.LoadingControl.Controllers
 
 		public ActionResult Index()
 		{
-			if (User.Identity.IsAuthenticated)
-			{
-				if (transactionLogic.GetActiveTransaction() != null)
-				{
-					return RedirectToAction("Index", "Loading");
-				}
-			}
+			//if (User.Identity.IsAuthenticated)
+			//{
+			//	if (transactionLogic.GetActiveTransaction() != null)
+			//	{
+			//		return RedirectToAction("Index", "Loading");
+			//	}
+			//}
 			return View();
 		}
 
-		public ActionResult About()
+		[ChildActionOnly]
+		public ActionResult PreviousTransactions()
 		{
-			ViewBag.Message = "Your application description page.";
-
-			return View();
+			var model = transactionLogic.GetFinishedTransactions(0, 5);
+			return PartialView("_Transactions", model);
 		}
 
-		public ActionResult Contact()
+		[ChildActionOnly]
+		public ActionResult CurrentTransactions()
 		{
-			ViewBag.Message = "Your contact page.";
-
-			return View();
+			var model = transactionLogic.GetCurrentTransactions()
+				.Where(t => t.Batches.Any())
+				.OrderBy(t => t.Batches.Select(b => b.StartedAt).Max())
+				.ToArray();
+			return PartialView("_Transactions", model);
 		}
+
+		[ChildActionOnly]
+		public ActionResult FutureTransactions()
+		{
+			var model = transactionLogic.GetCurrentTransactions()
+				.Where(t => !t.Batches.Any())
+				.OrderBy(t => t.ShippingDate)
+				.ToArray();
+			return PartialView("_Transactions", model);
+		}
+
+		//public ActionResult About()
+		//{
+		//	ViewBag.Message = "Your application description page.";
+
+		//	return View();
+		//}
+
+		//public ActionResult Contact()
+		//{
+		//	ViewBag.Message = "Your contact page.";
+
+		//	return View();
+		//}
 	}
 }

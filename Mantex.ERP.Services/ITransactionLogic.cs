@@ -13,7 +13,8 @@ namespace Mantex.ERP.Services
 		Transaction GetActiveTransaction();
 		Entities.Batch GetBatch(int id);
 		IEnumerable<Transaction> GetCurrentTransactions();
-		IEnumerable<Entities.Observation> GetLastObservations(int pageIndex, int pageSize);
+		IEnumerable<Transaction> GetFinishedTransactions(int pageIndex, int pageSize);
+		IEnumerable<Observation> GetLastObservations(int pageIndex, int pageSize);
 		Transaction GetTransaction(string id);
 		void StartTransaction(string transactionId, int materialTypeId, string username);
 		Batch StopBatch(int Id, string username);

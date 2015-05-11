@@ -35,6 +35,17 @@ namespace Mantex.ERP.Services
 				.SingleOrDefault();
 		}
 
+		public IEnumerable<Entities.Transaction> GetFinishedTransactions(int pageIndex, int pageSize)
+		{
+			return repository.Batches
+				.Where(b => b.IsTransactionDone)
+				.OrderByDescending(b => b.StartedAt)
+				.Select(b => b.Transaction)
+				.Skip(pageIndex * pageSize)
+				.Take(pageSize)
+				.ToArray();
+		}
+
 		public Entities.Transaction GetTransaction(string id)
 		{
 			return repository.Transactions
