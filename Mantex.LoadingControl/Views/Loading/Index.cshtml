@@ -14,10 +14,7 @@
         @Html.Action("BatchStatus", new { id = selectedTransactionId })
     </div>
     <div id="ObservationsContainer" class="col-sm-12">
-        @if (selectedTransactionId != null)
-        {
-            @Html.Action("Observations", new { id = selectedTransactionId })
-        }
+        @Html.Action("Observations")
     </div>
 </div>
 

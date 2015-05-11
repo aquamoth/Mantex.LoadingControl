@@ -119,6 +119,16 @@ namespace Mantex.ERP.Services
 			return repository.Batches.Where(b => b.Id == id).Single();
 		}
 
+		public IEnumerable<Entities.Observation> GetLastObservations(int pageIndex, int pageSize)
+		{
+			return repository.Observations
+				.Include(o => o.Batch.Transaction.Batches)
+				.OrderByDescending(o => o.ObservedAt)
+				.Skip(pageIndex * pageSize)
+				.Take(pageSize)
+				.ToArray();
+		}
+
 		public void AddObservation(int batchId, string text, string username)
 		{
 			var batch = GetBatch(batchId);

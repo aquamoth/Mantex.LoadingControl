@@ -171,14 +171,19 @@ namespace Mantex.LoadingControl.Controllers
 
 
 		[HttpGet]
-		public ActionResult Observations(string id)
+		public ActionResult Observations()
 		{
-			var transaction = transactionLogic.GetTransaction(id);
-			var activeBatch = transaction == null ? null : transaction.Batches.Where(b => !b.StoppedAt.HasValue).SingleOrDefault();
-			var observations = transaction == null ? null : transaction.Batches.SelectMany(b => b.Observations).ToArray();
+			var transaction = transactionLogic.GetActiveTransaction();
+			var activeBatchId = transaction != null
+				? (int?)transaction.Batches
+					.Where(b => !b.StoppedAt.HasValue)
+					.Select(b => (int?)b.Id)
+					.SingleOrDefault()
+				: null;
+			var observations = transactionLogic.GetLastObservations(0, 30);
 			var model = new LoadingModels.ObservationsModel
 			{
-				SelectedBatchId = activeBatch != null ? (int?)activeBatch.Id : null,
+				SelectedBatchId = activeBatchId,
 				Observations = observations
 			};
 			return PartialView(model);

@@ -1,19 +1,21 @@
-﻿using System;
-using Mantex.ERP.Entities;
+﻿using Mantex.ERP.Entities;
+using System;
+using System.Collections.Generic;
 
 namespace Mantex.ERP.Services
 {
 	public interface ITransactionLogic
 	{
 		void AddObservation(int batchId, string text, string username);
-		System.Collections.Generic.IEnumerable<MaterialType> AvailableMaterialTypes();
+		IEnumerable<MaterialType> AvailableMaterialTypes();
 		void Create(Transaction model);
 		void FinishTransaction(string Id, string username);
 		Transaction GetActiveTransaction();
 		Entities.Batch GetBatch(int id);
-		System.Collections.Generic.IEnumerable<Transaction> GetCurrentTransactions();
+		IEnumerable<Transaction> GetCurrentTransactions();
+		IEnumerable<Entities.Observation> GetLastObservations(int pageIndex, int pageSize);
+		Transaction GetTransaction(string id);
 		void StartTransaction(string transactionId, int materialTypeId, string username);
 		Batch StopBatch(int Id, string username);
-		Transaction GetTransaction(string id);
 	}
 }
