@@ -14,15 +14,18 @@ namespace Mantex.ERP.Entities
 
         public int Id { get; set; }
 
-		public string Text { get; set; }
-
         [Required]
         public int BatchId { get; set; }
+
+		[Required]
+		[StringLength(256)]
+		public string Text { get; set; }
 
 		public DateTime ObservedAt { get; set; }
 
 		public DateTime RegisteredAt { get; set; }
 
+		[StringLength(256)]
 		public string RegisteredBy { get; set; }
 
         public virtual Batch Batch { get; set; }
