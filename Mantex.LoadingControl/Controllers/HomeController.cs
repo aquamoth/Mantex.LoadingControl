@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mantex.ERP.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,8 +10,17 @@ namespace Mantex.LoadingControl.Controllers
 {
 	public class HomeController : Controller
 	{
+		public ITransactionLogic transactionLogic { get; set; }
+
 		public ActionResult Index()
 		{
+			if (User.Identity.IsAuthenticated)
+			{
+				if (transactionLogic.GetActiveTransaction() != null)
+				{
+					return RedirectToAction("Index", "Loading");
+				}
+			}
 			return View();
 		}
 

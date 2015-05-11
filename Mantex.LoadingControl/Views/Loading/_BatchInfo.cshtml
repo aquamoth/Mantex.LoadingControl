@@ -1,6 +1,10 @@
 ﻿@model Mantex.ERP.Entities.Transaction
 @{
     var activeBatch = Model.Batches.SingleOrDefault(b => !b.StoppedAt.HasValue);
+    if (activeBatch == null) 
+    {
+        activeBatch = Model.Batches.OrderByDescending(b => b.StartedAt).FirstOrDefault();
+    }
 }
 <h3>Produktion</h3>
 @if (activeBatch != null)

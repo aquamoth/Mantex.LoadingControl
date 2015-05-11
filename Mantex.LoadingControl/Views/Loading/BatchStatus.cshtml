@@ -1,6 +1,7 @@
-﻿@model Mantex.LoadingControl.Models.LoadingModels.IndexModel
+﻿@model Mantex.ERP.Entities.Transaction
 @{
-    var transaction = Model.ActiveBatch == null ? null : Model.ActiveBatch.Transaction;
+    var transaction = Model;//.ActiveBatch == null ? null : Model.ActiveBatch.Transaction;
+    var activeBatch = transaction == null ? null : transaction.Batches.Where(b => !b.StoppedAt.HasValue).SingleOrDefault();
     var headline = transaction == null
         ? "(ingen pågående transaktion)"
         : string.Format("{3} - {0} {1} {2}",
@@ -30,18 +31,21 @@
                     @Html.Action("Progress", "Loading", new { Id = transaction.Id })
                 </div>
             </div>
-            using (Html.BeginForm("StopBatch", "Loading", FormMethod.Post, new { role = "form" }))
+            if (activeBatch != null)
             {
-                @Html.AntiForgeryToken()
-                @Html.Hidden("Id", Model.ActiveBatch.Id)
-                <div class="row">
-                    <div class="col-xs-6 col-sm-12 col-md-6">
-                        @button("Stanna", true)
+                using (Html.BeginForm("StopBatch", "Loading", FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("batchId", activeBatch.Id)
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-12 col-md-6">
+                            @button("Stanna", true)
+                        </div>
+                        <div class="col-xs-6 col-sm-12 col-md-6">
+                            @dialogButton("Avsluta Transaktionen", "ConfirmFinishModal", true, "btn-block")
+                        </div>
                     </div>
-                    <div class="col-xs-6 col-sm-12 col-md-6">
-                        @dialogButton("Avsluta Transaktionen", "ConfirmFinishModal", true, "btn-block")
-                    </div>
-                </div>
+                }
             }
         }
     </div>
@@ -49,9 +53,9 @@
         @Html.Action("MachineStatus", "Loading")
     </div>
 </div>
-@if (Model.ActiveBatch != null)
+@if (activeBatch != null)
 {
-    @Html.Partial("ConfirmFinishModal", Model.ActiveBatch)
+    @Html.Partial("ConfirmFinishModal", activeBatch)
 }
 
 

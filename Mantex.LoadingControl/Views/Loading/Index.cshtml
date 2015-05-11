@@ -1,13 +1,14 @@
 ﻿@model Mantex.LoadingControl.Models.LoadingModels.IndexModel
 @{
     ViewBag.Title = "Lossning";
+    var selectedTransactionId = Model.ActiveBatch != null ? Model.ActiveBatch.TransactionId : Model.SelectedTransaction;
 }
 <br />
 <div class="row">
     <div class="col-sm-6 col-md-5">
         @Html.Partial("_ControlPanel", Model)
     </div>
-    <div class="col-sm-6 col-md-7">
-        @Html.Partial("_BatchStatus", Model)
+    <div id="BatchStatusContainer" class="col-sm-6 col-md-7">
+        @Html.Action("BatchStatus", new { id = selectedTransactionId })
     </div>
 </div>

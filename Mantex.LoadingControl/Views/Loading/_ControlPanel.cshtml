@@ -1,7 +1,4 @@
 ﻿@model Mantex.LoadingControl.Models.LoadingModels.IndexModel
-@{
-    var activeTransactionId = Model.ActiveBatch == null ? null : Model.ActiveBatch.TransactionId;
-}
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">Kontrollpanel</h3>
@@ -20,11 +17,11 @@
                                 <label>Välj Transaktion</label>
                             </div>
                             <div class="col-xs-6 text-right">
-                                @dialogButton("Ny...", "NewTransactionModal", true, "btn-xs")
+                                @*@dialogButton("Ny...", "NewTransactionModal", true, "btn-xs")*@
                             </div>
                         </div>
                         <div class="transaction-table">
-                            @Html.EditorFor(m => m.SelectedTransaction, "SmallTransactionTable", new { Transactions = Model.Transactions, ActiveTransactionId = activeTransactionId })
+                            @Html.EditorFor(m => m.SelectedTransaction, "SmallTransactionTable", new { Transactions = Model.Transactions })
                         </div>
                     </div>
                 </div>
@@ -34,7 +31,7 @@
                         @Html.DropDownListFor(m => m.SelectedMaterialType, new SelectList(Model.MaterialTypes, "Id", "Name"), new { Id = "MaterialTypeSelect", @Class = "form-control" })
                     </div>
                     <div class="form-group">
-                        @button("Starta", activeTransactionId == null)
+                        @button("Starta", Model.ActiveBatch == null)
                     </div>
                 </div>
             </div>

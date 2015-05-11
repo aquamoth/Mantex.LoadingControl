@@ -9,6 +9,7 @@ namespace Mantex.ERP.Services
 		Mantex.ERP.Entities.Transaction GetActiveTransaction();
 		System.Collections.Generic.IEnumerable<Mantex.ERP.Entities.Transaction> GetCurrentTransactions();
 		void StartTransaction(string transactionId, int materialTypeId);
-		void StopBatch(int Id);
+		Mantex.ERP.Entities.Batch StopBatch(int Id);
+		Mantex.ERP.Entities.Transaction GetTransaction(string id);
 	}
 }

@@ -21,20 +21,40 @@ namespace Mantex.LoadingControl.Controllers
 
 		[HttpGet]
 		[RestoreModelStateFromTempData]
-		public ActionResult Index()
+		public ActionResult Index(string id = null)
 		{
-			var activeTransaction = transactionLogic.GetActiveTransaction();
-			var activeBatch = activeTransaction == null 
-				? null 
-				: activeTransaction.Batches.SingleOrDefault(b => !b.StoppedAt.HasValue);
+			var selectedTransaction = transactionLogic.GetActiveTransaction();
+			var activeBatch = selectedTransaction != null
+				? selectedTransaction.Batches.SingleOrDefault(b => !b.StoppedAt.HasValue)
+				: null;
+			var selectedTransactionId = selectedTransaction != null 
+				? selectedTransaction.Id 
+				: id;
 
 			var model = new LoadingModels.IndexModel
 			{
 				Transactions = transactionLogic.GetCurrentTransactions(),
 				MaterialTypes = transactionLogic.AvailableMaterialTypes(),
+				SelectedTransaction = selectedTransactionId,
 				ActiveBatch = activeBatch
 			};
 			return View(model);
+		}
+
+		//[HttpGet]
+		public ActionResult BatchStatus(string id)
+		{
+			var model = id == null 
+				? null 
+				: transactionLogic.GetTransaction(id);
+
+			return PartialView(model);
+		}
+
+		[HttpGet]
+		public ActionResult TransactionInfo()
+		{
+			return PartialView();
 		}
 
 		[HttpPost]
@@ -89,19 +109,21 @@ namespace Mantex.LoadingControl.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[SetTempDataModelState]
-		public ActionResult StopBatch(int Id)
+		public ActionResult StopBatch(int batchId)
 		{
 #warning Stopping a batch must be transactional
+			string transactionId = null;
 			try
 			{
-				transactionLogic.StopBatch(Id);
+				var batch = transactionLogic.StopBatch(batchId);
+				transactionId = batch.TransactionId;
 				new FlowScannerLogic().StopMeasure();
 			}
 			catch (Exception ex)
 			{
 				ModelState.AddModelError("", ex.Message);
 			}
-			return RedirectToAction("Index");
+			return RedirectToAction("Index", new { id = transactionId });
 		}
 
 		[HttpPost]
@@ -122,10 +144,10 @@ namespace Mantex.LoadingControl.Controllers
 			return RedirectToAction("Index");
 		}
 
-		[ChildActionOnly]
-		public ActionResult Progress(string Id)
+		//[ChildActionOnly] //Needs access from ajax too
+		public ActionResult Progress(string id)
 		{
-			var transaction = transactionLogic.GetActiveTransaction();
+			var transaction = transactionLogic.GetTransaction(id);
 
 			var secondsOfProduction = transaction.Batches.Select(b =>
 				{

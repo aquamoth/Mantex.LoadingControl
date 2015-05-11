@@ -1,15 +1,20 @@
 ﻿@model string
 @{
+    Html.RequireScript("~/Scripts/Loading/SmallTransactionTable.js");
     var transactions = (IEnumerable<Mantex.ERP.Entities.Transaction>)ViewBag.Transactions;
+    var hasActiveTransaction = transactions.Any(t => t.Batches.Any(b => !b.StoppedAt.HasValue));
+    var activeTransactionId = transactions.Where(t => t.Batches.Any(b => !b.StoppedAt.HasValue)).Select(t => t.Id).SingleOrDefault();
 }
 <table class="table table-hover">
     <tbody>
         @foreach (var transaction in transactions)
         {
-            <tr class="@RowClassFor(transaction.Id)">
+            <tr class="@RowClassFor(transaction.Id, activeTransactionId)" data-id="@transaction.Id">
                 <td>
-                    @if(!isActive(transaction.Id)){
-                        @Html.RadioButtonFor(m => m, transaction.Id)
+                    @if (!hasActiveTransaction)
+                    {
+                        object attributes = transaction.Id == Model ? new { Checked = "checked" } : null;
+                        @Html.RadioButtonFor(m => m, transaction.Id, attributes)
                     }
                 </td>
                 <td>@SuffixOf(transaction.Id)</td>
@@ -27,14 +32,13 @@
         var suffix = Id.Substring(index);
         return suffix;
     }
-    string RowClassFor(string Id)
+    string RowClassFor(string Id, string activeTransactionId)
     {
-        return isActive(Id) ? "active" : null;
+        return isActive(Id, activeTransactionId) ? "active" : null;
     }
     
-    bool isActive(string Id)
+    bool isActive(string Id, string activeTransactionId)
     {
-        var activeTransactionId = (string)ViewBag.ActiveTransactionId;
         return (Id == activeTransactionId);
     }
 }

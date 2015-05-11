@@ -179,6 +179,7 @@
     <Content Include="Content\custom.min.css">
       <DependentUpon>custom.css</DependentUpon>
     </Content>
+    <Content Include="Content\mantex_logotype.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -199,6 +200,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Loading\SmallTransactionTable.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -229,7 +231,7 @@
     <Content Include="Views\Loading\MachineStatus.cshtml" />
     <Content Include="Views\Loading\DisplayTemplates\DateTime.cshtml" />
     <Content Include="Views\Loading\ProductionStatus.cshtml" />
-    <Content Include="Views\Loading\_BatchStatus.cshtml" />
+    <Content Include="Views\Loading\BatchStatus.cshtml" />
     <Content Include="Views\Loading\_TransactionInfo.cshtml" />
     <Content Include="Views\Loading\_BatchInfo.cshtml" />
     <Content Include="Views\Loading\DisplayTemplates\Stopwatch.cshtml" />
@@ -238,6 +240,7 @@
     <Content Include="Views\Loading\ConfirmFinishModal.cshtml" />
     <Content Include="Views\Shared\_ValidationSummary.cshtml" />
     <Content Include="Views\Account\LogOn.cshtml" />
+    <Content Include="Views\Loading\TransactionInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

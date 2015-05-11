@@ -1,6 +1,7 @@
 ﻿using Mantex.ERP.Data;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,18 @@ namespace Mantex.ERP.Services
 
 		public Entities.Transaction GetActiveTransaction()
 		{
-			return repository.Batches.Where(b => !b.StoppedAt.HasValue).Select(b => b.Transaction).SingleOrDefault();
+			return repository.Batches
+				.Where(b => !b.StoppedAt.HasValue)
+				.Select(b => b.Transaction)
+				.SingleOrDefault();
+		}
+
+		public Entities.Transaction GetTransaction(string id)
+		{
+			return repository.Transactions
+				.Include(t => t.Batches)
+				.Where(t => t.Id == id)
+				.SingleOrDefault();
 		}
 
 		public void StartTransaction(string transactionId, int materialTypeId)
@@ -45,7 +57,7 @@ namespace Mantex.ERP.Services
 			repository.SaveChanges();
 		}
 
-		public void StopBatch(int Id)
+		public Mantex.ERP.Entities.Batch StopBatch(int Id)
 		{
 #warning Not thread safe!
 			var batch = getBatch(Id);
@@ -58,6 +70,7 @@ namespace Mantex.ERP.Services
 			batch.StoppedAt = DateTime.Now;
 			//TODO: batch.StoppedBy = ???;
 			repository.SaveChanges();
+			return batch;
 		}
 
 		public void FinishTransaction(string Id)
