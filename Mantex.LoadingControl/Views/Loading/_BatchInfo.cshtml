@@ -2,53 +2,22 @@
 @{
     var activeBatch = Model.ActiveBatch ?? Model.LastBatch;
 }
-<h3>Produktion</h3>
 @if (activeBatch != null)
 {
     var batchTime = activeBatch.ElapstedTime;
     var productionTime = Model.Batches.Select(b => b.ElapstedTime).Sum();
-    
-    <div class="row">
-        <div class="col-xs-6"><strong>Omgång</strong></div>
-        <div class="col-xs-6">@Model.BatchNumberOf(activeBatch)</div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6"><strong>Material</strong></div>
-        <div class="col-xs-6">@activeBatch.MaterialType.Name</div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6"><strong>Startades</strong></div>
-        <div class="col-xs-6">@activeBatch.StartedAt.ToShortDateString() @activeBatch.StartedAt.ToShortTimeString()</div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6"><strong>Tid för omgång</strong></div>
-        <div class="col-xs-6">@Html.DisplayFor(m => batchTime, "Stopwatch")</div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6"><strong>Total tid</strong></div>
-        <div class="col-xs-6">@Html.DisplayFor(m => productionTime, "Stopwatch")</div>
-    </div>
+
+    <h3>Omgång @Model.BatchNumberOf(activeBatch)</h3>
+    <div><strong>Startades</strong></div>
+    <div>@activeBatch.StartedAt.ToShortDateString() @activeBatch.StartedAt.ToShortTimeString()</div>
+    <div><strong>Material</strong></div>
+    <div>@activeBatch.MaterialType.Name</div>
+    <div><strong>Tid för omgång</strong></div>
+    <div>@Html.DisplayFor(m => batchTime, "Stopwatch")</div>
+    <div><strong>Total tid</strong></div>
+    <div>@Html.DisplayFor(m => productionTime, "Stopwatch")</div>
 }
 else
 {
-    <div class="row">
-        <div class="col-xs-6"><strong>Omgång</strong></div>
-        <div class="col-xs-6">&nbsp;</div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6"><strong>Material</strong></div>
-        <div class="col-xs-6">&nbsp;</div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6"><strong>Startades</strong></div>
-        <div class="col-xs-6">&nbsp;</div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6"><strong>Tid för omgång</strong></div>
-        <div class="col-xs-6">&nbsp;</div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6"><strong>Total tid</strong></div>
-        <div class="col-xs-6">&nbsp;</div>
-    </div>
+    <h3>Ej påbörjad</h3>
 }

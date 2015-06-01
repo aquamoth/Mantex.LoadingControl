@@ -116,6 +116,7 @@ namespace Mantex.ERP.Services
 				Description = model.Description,
 				MaterialTypeId = materialType.Id,
 				MaterialType = materialType,
+				MaterialTypeComment = model.MaterialTypeComment,
 				ShippingDate = model.ShippingDate,
 				ExpectedWeight = model.ExpectedWeight,
 				ShippingMethod = model.ShippingMethod,
@@ -167,8 +168,11 @@ namespace Mantex.ERP.Services
 			return transaction;
 		}
 
-		private Entities.MaterialType getMaterialType(int materialTypeId)
+		private Entities.MaterialType getMaterialType(int? materialTypeId)
 		{
+			if (!materialTypeId.HasValue)
+				return null;
+
 			var materialTypes = this.AvailableMaterialTypes();
 			var materialType = materialTypes.FirstOrDefault(mt => mt.Id == materialTypeId);
 			if (materialType == null)

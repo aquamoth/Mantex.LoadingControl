@@ -70,7 +70,7 @@ namespace Mantex.ERP.Data.EF
 
 			modelBuilder.Entity<MaterialType>()
 				.HasMany(e => e.Transactions)
-				.WithRequired(e => e.MaterialType)
+				.WithOptional(e => e.MaterialType)
 				.WillCascadeOnDelete(false);
 
 			modelBuilder.Entity<Session>()

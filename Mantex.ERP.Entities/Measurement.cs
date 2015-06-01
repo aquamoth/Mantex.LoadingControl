@@ -13,6 +13,9 @@ namespace Mantex.ERP.Entities
 
         public int SessionId { get; set; }
 
+		[StringLength(256)]
+		public string TransactionId { get; set; }
+
         public int BeltSectionId { get; set; }
 
         public int BeltRevolution { get; set; }
@@ -37,8 +40,13 @@ namespace Mantex.ERP.Entities
 
         public double? HeatConfidence { get; set; }
 
+		[Timestamp]
+		public byte[] TS { get; set; }
+
         public virtual BeltSection BeltSection { get; set; }
 
         public virtual Session Session { get; set; }
+
+		public virtual Transaction Transaction { get; set; }
     }
 }

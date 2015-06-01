@@ -21,7 +21,10 @@ namespace Mantex.ERP.Entities
         [StringLength(256)]
         public string Name { get; set; }
 
-        public int MaterialTypeId { get; set; }
+        public int? MaterialTypeId { get; set; }
+
+		[StringLength(256)]
+		public string MaterialTypeComment { get; set; }
 
         public int? LoadingPositionId { get; set; }
 
